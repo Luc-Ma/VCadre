@@ -20,4 +20,5 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
     'Application',
+    'Adherents',
 ];
