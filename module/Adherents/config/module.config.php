@@ -22,10 +22,24 @@ return [
                     ],
                 ],
             ],
+            'adherents' => [
+                'type'   => Segment::class,
+                'options' => [
+                    'route' => '/adherents[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                            'controller' => Controller\AdherentsController::class,
+                            'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
+            Controller\AdherentsController::class => Controller\Factory\AdherentsControllerFactory::class,
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
         ],
     ],

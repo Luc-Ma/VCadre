@@ -1,0 +1,48 @@
+<?php
+
+$title = 'Adherents Vendée Cadres';
+$this->headTitle($title);
+$form->get('USERNAME')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'Nom d\'utilisateur',
+    'required' => true,
+    'autofocus' => true
+]);
+
+$form->get('PASS')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'Mot de passe',
+    'required' => true,
+]);
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+?>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-offset-4 col-md-4">
+        <?= $this->form()->openTag($form); ?>
+            <h2 class="form-signin-heading">Veuillez vous identifier avec vos accès Dolibar : </h2>
+            <?php if ($isLoginError): ?>
+            <div class="alert alert-warning" role="alert">
+                Mot de passe ou login incorrect.
+            </div>
+            <?php endif; ?>
+            <div class="form-group">
+                <?= $this->formLabel($form->get('USERNAME')); ?>
+                <?= $this->formElement($form->get('USERNAME')); ?>
+            </div>
+            <div class="form-group">
+                <?= $this->formLabel($form->get('PASS')); ?>
+                <?= $this->formElement($form->get('PASS')); ?>
+                <?= $this->formElementErrors($form->get('PASS')); ?>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <?= $this->formElement($form->get('remember_me')); ?> Se souvenir de moi
+                </label>
+            </div>
+            <?= $this->formElement($form->get('submit')); ?>
+            <?= $this->formElement($form->get('redirect_url')); ?>
+            <?= $this->formElement($form->get('csrf')) ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
