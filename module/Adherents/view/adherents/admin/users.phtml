@@ -1,0 +1,38 @@
+<?php
+$title = 'panel admin users';
+
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headScript()->appendFile($this->basePath('js/admin/user.js'));
+?>
+<style>
+.admin {
+    background: #5cb85c;
+    color: #fff;
+}
+</style>
+<div class="row">
+    <div class="col mx-auto">
+        <h1 class="text-center">Gestion Utilisateurs</h1>
+    </div>
+</div>
+
+<div class="col mx-auto">
+    <div class="form-group">
+        <div class="row my-3">
+          <select class="selectpicker show-tick form-control" data-style="btn-success" id="users" data-live-search="true">
+            <option selected disabled>Sélectionnez un utilisateur :</option>
+            <?php foreach ($users as $user) : ?>
+                <option <?php if ($user->getAdminStatus()): echo "class=\"admin\""; endif; ?> value="<?= $user->getId(); ?>"><?= $user->getFirstname(); ?>&nbsp;<?= $user->getLastname(); ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="row">
+            <button id="add" type="button" class="btn btn-warning">Ajouter en tant que administrateur adhérents</button>
+            &nbsp;
+            <button id="del" type="button" class="btn btn-danger">Suprimer des administrateurs adhérents</button>
+        </div>
+    </div>
+</div>
+</div>

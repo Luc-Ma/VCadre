@@ -1,0 +1,53 @@
+<?php
+$title = 'panel admin';
+
+$this->headTitle($title);
+?>
+
+<div class="row">
+    <div class="col mx-auto">
+        <h1 class="text-center">Panneau d'administration</h1>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'users']); ?>">
+            <button type="button" class="btn btn-success">Gérer les utilisateurs</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'mvc']); ?>">
+            <button type="button" class="btn btn-success">Gérer les minis cv</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'comp']); ?>">
+            <button type="button" class="btn btn-success">Gérer les compétences</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'compbis']); ?>">
+            <button type="button" class="btn btn-success">Gérer les compétences complémentaires</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'secteur']); ?>">
+            <button type="button" class="btn btn-success">Gérer les secteurs</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'savoiretre']); ?>">
+            <button type="button" class="btn btn-success">Gérer les savoirs êtes</button>
+        </a>
+    </div>
+</div>

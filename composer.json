@@ -24,7 +24,8 @@
         "doctrine/doctrine-orm-module": "^2.1",
         "zendframework/zend-mail": "^2.10",
         "zendframework/zend-math": "^3.2",
-        "zendframework/zend-captcha": "^2.9"
+        "zendframework/zend-captcha": "^2.9",
+        "zendframework/zend-permissions-acl": "^2.7"
     },
     "autoload": {
         "psr-4": {

@@ -35,12 +35,26 @@ return [
                     ],
                 ],
             ],
+            'admin' => [
+                'type'   => Segment::class,
+                'options' => [
+                    'route' => '/admin[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                            'controller' => Controller\AdminController::class,
+                            'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\AdherentsController::class => Controller\Factory\AdherentsControllerFactory::class,
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
+            Controller\AdminController::class => Controller\Factory\AdminControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -48,7 +62,7 @@ return [
             \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
-            Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+            Service\AdminManager::class => Service\Factory\AdminManagerFactory::class,
         ],
     ],
     'view_manager' => [

@@ -100,4 +100,7 @@ class AuthController extends AbstractActionController
 
         return $this->redirect()->toRoute('home');
     }
+    public function permissionAction()
+    {
+    }
 }
