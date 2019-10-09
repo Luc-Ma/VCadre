@@ -3,6 +3,7 @@ namespace Adherents\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Adherents\Entity\VcMinicv;
 
 /**
  * This class represents a registered user.
@@ -11,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class User
 {
-    // lvl state constants.
+    // user admin constants.
     const USER_IS_ADMIN   = 1;
     const USER_NOT_ADMIN  = 0;
 
@@ -51,6 +52,37 @@ class User
      * @ORM\Column(name="pass_crypted")
      */
     protected $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\Adherents\Entity\VcMinicv", mappedBy="user")
+     * @ORM\JoinColumn(name="rowid", referencedColumnName="user")
+     */
+    protected $minicv;
+
+
+    //constructor
+    public function __construct()
+    {
+        $this->minicv = new ArrayCollection();
+    }
+
+    /**
+     * Returns minicv .
+     * @return array
+     */
+    public function getMinicv()
+    {
+        return $this->minicv;
+    }
+
+    /**
+     * Adds new minicv.
+     * @param $comp
+     */
+    public function addMinicv($minicv)
+    {
+        $this->minicv[] = $minicv;
+    }
 
     /**
      * Returns user ID.
