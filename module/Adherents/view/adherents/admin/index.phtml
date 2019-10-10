@@ -18,6 +18,13 @@ $this->headTitle($title);
 </div>
 <div class="row my-3">
     <div class="col-md-4">
+        <a href="<?= $this->url('admin', ['action' => 'apec']); ?>">
+            <button type="button" class="btn btn-success">Gérer Apec</button>
+        </a>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-md-4">
         <a href="<?= $this->url('admin', ['action' => 'mvc']); ?>">
             <button type="button" class="btn btn-success">Gérer les minis cv</button>
         </a>

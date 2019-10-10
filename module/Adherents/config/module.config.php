@@ -71,6 +71,14 @@ return [
         ],
         'strategies' => array('ViewJsonStrategy',),
     ],
+    'view_helpers' => [
+        'factories' => [
+            Helper\AdminHelper::class => Helper\Factory\AdminHelperFactory::class,
+        ],
+        'aliases' => [
+            'AdminRender' => Helper\AdminHelper::class,
+        ],
+    ],
     'doctrine' => [
         'driver' => [
             __NAMESPACE__ . '_driver' => [

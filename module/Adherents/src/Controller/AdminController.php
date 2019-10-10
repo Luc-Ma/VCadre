@@ -5,6 +5,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Adherents\Entity\User;
+use Adherents\Form\Admin\ApecForm;
 
 class AdminController extends AbstractActionController
 {
@@ -55,9 +56,12 @@ class AdminController extends AbstractActionController
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adminService->delAdmin($id);
                     break;
-
+                case '2': //delete Apec.s
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delApec($id);
+                    break;
                 default:
-                    // code...
+                    $result = false;
                     break;
             }
             if ($result) {  //all is delete
@@ -77,6 +81,27 @@ class AdminController extends AbstractActionController
         if (!self::checkAccess()) {
             return $this->redirect()->toRoute('home');
         }
+    }
+
+    public function apecAction()
+    {
+        $form = new ApecForm($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addApec($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'apec']);
     }
 
     public function usersAction()

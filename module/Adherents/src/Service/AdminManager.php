@@ -2,6 +2,7 @@
 namespace Adherents\Service;
 
 use Adherents\Entity\User;
+use Adherents\Entity\VcApec;
 
 class AdminManager
 {
@@ -51,5 +52,35 @@ class AdminManager
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         return true;
+    }
+
+    public function addApec($data)
+    {
+        $newApec = new VcApec();
+
+        $newApec->setIntitule($data['intitule']);
+        $this->entityManager->persist($newApec);
+        $this->entityManager->flush();
+    }
+
+    public function delApec($ids)
+    {
+        $result = true;
+
+        $apecs = $this->entityManager->getRepository(VcApec::class)
+                            ->findById($ids);
+
+        foreach ($apecs as $apec) {
+            if ($apec->getMinicv()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($apec); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
     }
 }
