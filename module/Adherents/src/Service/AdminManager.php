@@ -6,6 +6,9 @@ use Adherents\Entity\VcApec;
 use Adherents\Entity\VcMetier;
 use Adherents\Entity\VcComp;
 use Adherents\Entity\VcCompBis;
+use Adherents\Entity\VcSecteur;
+use Adherents\Entity\VcSavoiretre;
+use Adherents\Entity\VcSavoiretreList;
 
 class AdminManager
 {
@@ -182,6 +185,105 @@ class AdminManager
                 continue; // skip this one don't delete it, it's under use
             }
             $this->entityManager->remove($compBis); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function addSecteur($data)
+    {
+        $newSecteur = new VcSecteur();
+
+        $newSecteur->setNom($data['nom']);
+        $newSecteur->setType($data['type']);
+        $this->entityManager->persist($newSecteur);
+        $this->entityManager->flush();
+    }
+
+    public function delSecteur($ids)
+    {
+        $result = true;
+
+        $secteurs = $this->entityManager->getRepository(VcSecteur::class)
+                            ->findById($ids);
+
+        foreach ($secteurs as $secteur) {
+            if ($secteur->getMinicv()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($secteur); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function addSeCat($data)
+    {
+        $newSeCat = new VcSavoiretre();
+
+        $newSeCat->setNom($data['nom']);
+        $this->entityManager->persist($newSeCat);
+        $this->entityManager->flush();
+    }
+
+    public function addSe($data)
+    {
+        $seCat = $this->entityManager->getRepository(VcSavoiretre::class)
+                            ->findOneById($data['secat']);
+        if ($seCat === null) {
+            return false;
+        }
+
+        $newSe = new VcSavoiretreList();
+
+        $newSe->setNom($data['nom']);
+        $newSe->setSavoiretre($seCat);
+
+        $this->entityManager->persist($newSe);
+        $this->entityManager->flush();
+    }
+
+    public function delSeCat($ids)
+    {
+        $result = true;
+
+        $seCats = $this->entityManager->getRepository(VcSavoiretre::class)
+                            ->findById($ids);
+
+        foreach ($seCats as $seCat) {
+            if ($seCat->getSeList()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($seCat); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function delSe($ids)
+    {
+        $result = true;
+
+        $ses = $this->entityManager->getRepository(VcSavoiretreList::class)
+                            ->findById($ids);
+
+        foreach ($ses as $se) {
+            if ($se->getMinicv()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($se); // delete it
         }
 
         //apply to db

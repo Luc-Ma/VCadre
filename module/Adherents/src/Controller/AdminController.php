@@ -9,6 +9,9 @@ use Adherents\Form\Admin\ApecForm;
 use Adherents\Form\Admin\MetierForm;
 use Adherents\Form\Admin\CompForm;
 use Adherents\Form\Admin\CompBisForm;
+use Adherents\Form\Admin\SecteurForm;
+use Adherents\Form\Admin\SeForm;
+use Adherents\Form\Admin\SeCatForm;
 
 class AdminController extends AbstractActionController
 {
@@ -74,6 +77,18 @@ class AdminController extends AbstractActionController
                 case '5': //delete compbis.s
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adminService->delCompBis($id);
+                    break;
+                case '6': //delete secteur.s
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delSecteur($id);
+                    break;
+                case '7': //delete savoir etre cat
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delSeCat($id);
+                    break;
+                case '8': //delete savoir etre
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delSe($id);
                     break;
                 default:
                     $result = false;
@@ -187,5 +202,66 @@ class AdminController extends AbstractActionController
         $this->adminService->addCompBis($data);
 
         return $this->redirect()->toRoute('admin', ['action' => 'compbis']);
+    }
+
+    public function secteurAction()
+    {
+        $form = new SecteurForm($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addSecteur($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'secteur']);
+    }
+    public function savoiretrecatAction()
+    {
+        $form = new SeCatForm();
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addSeCat($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'savoiretrecat']);
+    }
+    public function savoiretreAction()
+    {
+        $form = new SeForm($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addSe($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'savoiretre']);
     }
 }

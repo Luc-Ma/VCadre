@@ -10,7 +10,7 @@ use Adherents\Entity\VcMinicv;
  * VcSecteur
  *
  * @ORM\Table(name="vc_secteur")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Adherents\Repository\SecteurRepository")
  */
 class VcSecteur
 {

@@ -55,8 +55,15 @@ $this->headTitle($title);
         </div>
         <div class="row my-3">
             <div class="col">
+                <a href="<?= $this->url('admin', ['action' => 'savoiretrecat']); ?>">
+                    <button type="button" class="btn btn-success">Gérer les catégories de savoirs êtres</button>
+                </a>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col">
                 <a href="<?= $this->url('admin', ['action' => 'savoiretre']); ?>">
-                    <button type="button" class="btn btn-success">Gérer les savoirs êtes</button>
+                    <button type="button" class="btn btn-success">Gérer les savoirs êtres</button>
                 </a>
             </div>
         </div>
