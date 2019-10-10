@@ -6,6 +6,9 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Adherents\Entity\User;
 use Adherents\Form\Admin\ApecForm;
+use Adherents\Form\Admin\MetierForm;
+use Adherents\Form\Admin\CompForm;
+use Adherents\Form\Admin\CompBisForm;
 
 class AdminController extends AbstractActionController
 {
@@ -60,6 +63,18 @@ class AdminController extends AbstractActionController
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adminService->delApec($id);
                     break;
+                case '3': //delete metier.s
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delMetier($id);
+                    break;
+                case '4': //delete comp.s
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delComp($id);
+                    break;
+                case '5': //delete compbis.s
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delCompBis($id);
+                    break;
                 default:
                     $result = false;
                     break;
@@ -85,7 +100,7 @@ class AdminController extends AbstractActionController
 
     public function apecAction()
     {
-        $form = new ApecForm($this->entityManager);
+        $form = new ApecForm();
 
         $request = $this->getRequest();
         if (!$request->isPost()) {
@@ -109,5 +124,68 @@ class AdminController extends AbstractActionController
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         return ['users' => $users];
+    }
+
+    public function metierAction()
+    {
+        $form = new MetierForm();
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addMetier($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'metier']);
+    }
+
+    public function compAction()
+    {
+        $form = new CompForm($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addComp($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'comp']);
+    }
+
+    public function compbisAction()
+    {
+        $form = new CompBisForm($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addCompBis($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'compbis']);
     }
 }

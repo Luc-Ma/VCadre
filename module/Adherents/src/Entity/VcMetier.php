@@ -32,13 +32,6 @@ class VcMetier
     private $nom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, precision=0, scale=0, nullable=false, unique=false)
-     */
-    private $description;
-
-    /**
      * @ORM\OneToMany(targetEntity="\Adherents\Entity\VcComp", mappedBy="metier")
      * @ORM\JoinColumn(name="ID", referencedColumnName="metier")
      */
@@ -126,29 +119,5 @@ class VcMetier
     public function getNom()
     {
         return $this->nom;
-    }
-
-    /**
-     * Set description.
-     *
-     * @param string $description
-     *
-     * @return VcMetier
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 }

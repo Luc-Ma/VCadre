@@ -1,0 +1,54 @@
+<?php
+$title = 'Gestion Compétence Complémentaire';
+
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headLink()->appendStylesheet($this->basePath('css/admin/admin.css'));
+
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$form->get('nom')->setAttributes([
+    'class'=>'form-control',
+    'placeholder'=>'Nouvelle compétence complémentaire'
+]);
+$form->get('metier')->setAttributes(array(
+    'class'=> 'selectpicker',
+    'data-live-search'  => 'true',
+));
+$form->prepare();
+//print_r($form->getMessages());
+
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+
+<div class="row mt-5">
+    <div class="col-sm-6">
+        <?= $this->AdminRender()->renderCompBis(); ?>
+    </div>
+    <div class="col-sm-6">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('nom')); ?>
+            <?= $this->formElement($form->get('nom')); ?>
+            <?= $this->formElementErrors($form->get('nom')); ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('metier')); ?>
+            <?= $this->formElement($form->get('metier')); ?>
+            <?= $this->formElementErrors($form->get('metier')); ?>
+        </div>
+        <?= $this->formElement($form->get('csrf')) ?>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+        <button id="delete" type="button" class="btn mt-3 btn-danger btn-lg btn-block">Suprimer la compétence</button>
+    </div>
+</div>
+
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/admin/compbis.js'));
+ ?>

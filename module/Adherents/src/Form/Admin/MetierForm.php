@@ -7,8 +7,9 @@ use Zend\InputFilter\InputFilter;
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
 
-class ApecForm extends Form
+class MetierForm extends Form
 {
+
     /**
      * Constructor.
      */
@@ -31,7 +32,7 @@ class ApecForm extends Form
             'type'  => 'text',
             'name' => 'intitule',
             'options' => [
-                'label' => 'Intitulé de l\'Apec :  ',
+                'label' => 'Intitulé du métier :  ',
             ],
         ]);
         $this->add([

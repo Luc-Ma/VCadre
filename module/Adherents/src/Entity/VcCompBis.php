@@ -11,7 +11,7 @@ use Adherents\Entity\VcMinicv;
  * VcCompBis
  *
  * @ORM\Table(name="vc_comp_bis", indexes={@ORM\Index(name="link_metier_bis", columns={"metier"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Adherents\Repository\CompRepository")
  */
 class VcCompBis
 {
@@ -30,13 +30,6 @@ class VcCompBis
      * @ORM\Column(name="nom", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
     private $nom;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, precision=0, scale=0, nullable=false, unique=false)
-     */
-    private $description;
 
     /**
      * @var \Adherents\Entity\VcMetier
@@ -121,30 +114,6 @@ class VcCompBis
     public function getNom()
     {
         return $this->nom;
-    }
-
-    /**
-     * Set description.
-     *
-     * @param string $description
-     *
-     * @return VcCompBis
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

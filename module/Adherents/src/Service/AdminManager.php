@@ -3,6 +3,9 @@ namespace Adherents\Service;
 
 use Adherents\Entity\User;
 use Adherents\Entity\VcApec;
+use Adherents\Entity\VcMetier;
+use Adherents\Entity\VcComp;
+use Adherents\Entity\VcCompBis;
 
 class AdminManager
 {
@@ -76,6 +79,109 @@ class AdminManager
                 continue; // skip this one don't delete it, it's under use
             }
             $this->entityManager->remove($apec); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function addMetier($data)
+    {
+        $newMetier = new VcMetier();
+
+        $newMetier->setNom($data['intitule']);
+        $this->entityManager->persist($newMetier);
+        $this->entityManager->flush();
+    }
+
+    public function delMetier($ids)
+    {
+        $result = true;
+
+        $metiers = $this->entityManager->getRepository(VcMetier::class)
+                            ->findById($ids);
+
+        foreach ($metiers as $metier) {
+            if ($metier->getComp()->count() > 0 || $metier->getCompBis()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($metier); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function addComp($data)
+    {
+        $metier = $this->entityManager->getRepository(VcMetier::class)
+                            ->findOneById($data['metier']);
+        if ($metier === null) {
+            return false;
+        }
+
+        $newComp = new VcComp();
+
+        $newComp->setNom($data['nom']);
+        $newComp->setMetier($metier);
+        $this->entityManager->persist($newComp);
+        $this->entityManager->flush();
+    }
+
+    public function addCompBis($data)
+    {
+        $metier = $this->entityManager->getRepository(VcMetier::class)
+                            ->findOneById($data['metier']);
+        if ($metier === null) {
+            return false;
+        }
+
+        $newCompBis = new VcCompBis();
+
+        $newCompBis->setNom($data['nom']);
+        $newCompBis->setMetier($metier);
+        $this->entityManager->persist($newCompBis);
+        $this->entityManager->flush();
+    }
+    public function delComp($ids)
+    {
+        $result = true;
+
+        $comps = $this->entityManager->getRepository(VcComp::class)
+                            ->findById($ids);
+
+        foreach ($comps as $comp) {
+            if ($comp->getMinicv()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($comp); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+
+        return $result;
+    }
+
+    public function delCompBis($ids)
+    {
+        $result = true;
+
+        $compBiss = $this->entityManager->getRepository(VcCompBis::class)
+                            ->findById($ids);
+
+        foreach ($compBiss as $compBis) {
+            if ($compBis->getMinicv()->count() > 0) {
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $this->entityManager->remove($compBis); // delete it
         }
 
         //apply to db
