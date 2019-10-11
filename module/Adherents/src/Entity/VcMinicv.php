@@ -119,7 +119,7 @@ class VcMinicv
      *
      * @ORM\Column(name="date_maj", type="datetime", precision=0, scale=0, nullable=false, options={"default"="CURRENT_TIMESTAMP"}, unique=false)
      */
-    private $dateMaj = 'CURRENT_TIMESTAMP';
+    private $dateMaj;
 
     /**
      * @var \Adherents\Entity\VcApec

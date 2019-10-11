@@ -1,0 +1,65 @@
+<?php
+$title = 'Publier son cv';
+
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/adherents/upload.css'));
+$form->get('submit')->setAttributes(['class'=>'btn btn-lg btn-primary btn-block']);
+
+$form->get('cv')->setAttributes([
+    'class'=>'form-control',
+]);
+
+$form->prepare();
+print_r($form->getMessages());
+
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<?php if ($user->getUpload()->count() == 0): ?>
+<div class="row mt-5">
+    <div class="col-sm-6">
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get('cv')); ?>
+            <?= $this->formElement($form->get('cv')); ?>
+            <?= $this->formElementErrors($form->get('cv')); ?>
+        </div>
+        <?= $this->formElement($form->get('csrf')) ?>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
+<?php else:
+    if ($user->getUpload()->first()->getPublic()) {
+        $priv = "";
+        $pub = "checked";
+    } else {
+        $priv = "checked";
+        $pub = "";
+    }
+?>
+<div class="row mt-1">
+    <p>Votre cv est déjà publié</p>
+</div>
+<div class="row mt-5">
+    <div class="col">
+         <a href="<?= "/cv/cv_".$user->getLastname()."_".$user->getFirstname().".pdf"; ?>">Télécharger votre cv</a>
+    </div>
+    <div class="col">
+        <span class="group">
+        <input type="radio" class="prive" name="state" id="priv" <?= $priv; ?>>
+        <label for="priv">Privé</label>
+        <input type="radio" class="public" name="state" id="pub" <?= $pub; ?>>
+        <label for="pub">Public</label>
+        </span>
+    </div>
+    <div class="col">
+        <button id="delete" type="button" class="btn mt-3 btn-danger btn-lg btn-block">Suprimer mon cv</button>
+    </div>
+</div>
+<?php endif;
+$this->inlineScript()->appendFile($this->basePath('js/adherents/upload.js'));
+ ?>

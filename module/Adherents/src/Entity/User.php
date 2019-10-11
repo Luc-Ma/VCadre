@@ -3,8 +3,6 @@ namespace Adherents\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Adherents\Entity\VcMinicv;
-use Adherents\Entity\VcLog;
 
 /**
  * This class represents a registered user.
@@ -66,12 +64,18 @@ class User
      */
     protected $log;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Adherents\Entity\VcUpload", mappedBy="user")
+     * @ORM\JoinColumn(name="rowid", referencedColumnName="user")
+     */
+    protected $upload;
 
     //constructor
     public function __construct()
     {
         $this->minicv = new ArrayCollection();
         $this->log = new ArrayCollection();
+        $this->upload = new ArrayCollection();
     }
 
     /**
@@ -99,6 +103,24 @@ class User
     public function getLog()
     {
         return $this->log;
+    }
+
+    /**
+     * Adds new upload.
+     * @param $comp
+     */
+    public function addUpload($upload)
+    {
+        $this->upload[] = $upload;
+    }
+
+    /**
+     * Returns uploads .
+     * @return array
+     */
+    public function getUpload()
+    {
+        return $this->upload;
     }
 
     /**

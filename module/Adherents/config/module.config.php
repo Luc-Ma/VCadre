@@ -64,6 +64,7 @@ return [
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             Service\AdminManager::class => Service\Factory\AdminManagerFactory::class,
             Service\LogManager::class => Service\Factory\LogManagerFactory::class,
+            Service\AdherentsManager::class => Service\Factory\AdherentsManagerFactory::class,
         ],
     ],
     'view_manager' => [

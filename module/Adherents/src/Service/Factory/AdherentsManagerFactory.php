@@ -3,14 +3,14 @@ namespace Adherents\Service\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Adherents\Service\AdherentsManager;
 use Adherents\Service\LogManager;
-use Zend\Authentication\AuthenticationService;
 
 /**
- * This is the factory class for LogManager service. The purpose of the factory
+ * This is the factory class for AdherentsManager service. The purpose of the factory
  * is to instantiate the service and pass it dependencies (inject dependencies).
  */
-class LogManagerFactory implements FactoryInterface
+class AdherentsManagerFactory implements FactoryInterface
 {
     /**
      * This method creates the AuthManager service and returns its instance.
@@ -18,7 +18,7 @@ class LogManagerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        $authService = $container->get(AuthenticationService::class);
-        return new LogManager($entityManager, $authService);
+        $logManager = $container->get(LogManager::class);
+        return new AdherentsManager($entityManager, $logManager);
     }
 }

@@ -39,7 +39,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = $user->getLastname()." ".$user->getFirstname()." ajouté en tant que administrateur ";
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return true;
     }
 
@@ -66,7 +66,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = $user->getLastname()." ".$user->getFirstname()." suprimé des administrateurs ";
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return true;
     }
 
@@ -79,7 +79,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout APEC : ".$data['intitule'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function delApec($ids)
@@ -101,7 +101,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 
@@ -114,7 +114,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout METIER : ".$data['intitule'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function delMetier($ids)
@@ -136,7 +136,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 
@@ -156,7 +156,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout COMPETENCE : ".$data['nom'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function addCompBis($data)
@@ -175,7 +175,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout COMPETENCE complémentaire : ".$data['nom'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function delComp($ids)
@@ -198,7 +198,7 @@ class AdminManager
         //apply to db
         $this->entityManager->flush();
 
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
 
         return $result;
     }
@@ -222,7 +222,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 
@@ -236,7 +236,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout SECTEUR : ".$data['nom'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function delSecteur($ids)
@@ -258,7 +258,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 
@@ -271,7 +271,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout CATEGORIE SAVOIR ETRE : ".$data['nom'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function addSe($data)
@@ -291,7 +291,7 @@ class AdminManager
         $this->entityManager->flush();
 
         $log = "Ajout SAVOIR ETRE : ".$data['nom'];
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
     }
 
     public function delSeCat($ids)
@@ -313,7 +313,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 
@@ -336,7 +336,7 @@ class AdminManager
 
         //apply to db
         $this->entityManager->flush();
-        $this->logManager->addLog($log, $this->authService->getIdentity());
+        $this->logManager->addLog($log);
         return $result;
     }
 }

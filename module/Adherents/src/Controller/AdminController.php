@@ -65,6 +65,7 @@ class AdminController extends AbstractActionController
             'logs' => $paginator,
         ]);
     }
+
     public function ajaxAction()
     {
         if (!self::checkAccess()) {

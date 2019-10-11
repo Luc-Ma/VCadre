@@ -1,1 +1,32 @@
-<h1>YouHOU</h1>
+<?php
+$title = 'Acceuil';
+
+$this->headTitle($title);
+
+$count = $user->getMinicv()->count();
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<div class="row mt-2">
+    <h4><a href="<?= $this->url('adherents', ['action' => 'new']); ?>">Créer un nouveau mini cv</a></h4>
+</div>
+<div class="row my-2">
+    <h4><a href="<?= $this->url('adherents', ['action' => 'upload']); ?>">Uploader votre CV</a></h4>
+</div>
+<?php if ($count > 0): ?>
+<div class="row my-2">
+    <table class="table">
+      <tbody>
+          <tr>
+              <td></td>
+          </tr>
+      </tbody>
+    </table>
+</div>
+<?php endif; ?>
+<?php
+//$this->inlineScript()->appendFile($this->basePath('js/admin/se.js'));
+ ?>
