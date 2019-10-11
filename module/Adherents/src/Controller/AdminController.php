@@ -4,7 +4,11 @@ namespace Adherents\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 use Adherents\Entity\User;
+use Adherents\Entity\VcLog;
 use Adherents\Form\Admin\ApecForm;
 use Adherents\Form\Admin\MetierForm;
 use Adherents\Form\Admin\CompForm;
@@ -42,6 +46,25 @@ class AdminController extends AbstractActionController
         }
     }
 
+    public function logAction()
+    {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+        $page = $this->params()->fromQuery('page', 1);
+        $query = $this->entityManager->getRepository(VcLog::class)
+                ->findAll();
+
+
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(15);
+        $paginator->setCurrentPageNumber($page);
+
+        return new ViewModel([
+            'logs' => $paginator,
+        ]);
+    }
     public function ajaxAction()
     {
         if (!self::checkAccess()) {
@@ -115,6 +138,10 @@ class AdminController extends AbstractActionController
 
     public function apecAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new ApecForm();
 
         $request = $this->getRequest();
@@ -136,6 +163,10 @@ class AdminController extends AbstractActionController
 
     public function usersAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         return ['users' => $users];
@@ -143,6 +174,10 @@ class AdminController extends AbstractActionController
 
     public function metierAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new MetierForm();
 
         $request = $this->getRequest();
@@ -164,6 +199,10 @@ class AdminController extends AbstractActionController
 
     public function compAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new CompForm($this->entityManager);
 
         $request = $this->getRequest();
@@ -185,6 +224,10 @@ class AdminController extends AbstractActionController
 
     public function compbisAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new CompBisForm($this->entityManager);
 
         $request = $this->getRequest();
@@ -206,6 +249,10 @@ class AdminController extends AbstractActionController
 
     public function secteurAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new SecteurForm($this->entityManager);
 
         $request = $this->getRequest();
@@ -224,8 +271,13 @@ class AdminController extends AbstractActionController
 
         return $this->redirect()->toRoute('admin', ['action' => 'secteur']);
     }
+
     public function savoiretrecatAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new SeCatForm();
 
         $request = $this->getRequest();
@@ -244,8 +296,13 @@ class AdminController extends AbstractActionController
 
         return $this->redirect()->toRoute('admin', ['action' => 'savoiretrecat']);
     }
+
     public function savoiretreAction()
     {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
         $form = new SeForm($this->entityManager);
 
         $request = $this->getRequest();

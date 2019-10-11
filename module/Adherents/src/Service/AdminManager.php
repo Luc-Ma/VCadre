@@ -13,13 +13,17 @@ use Adherents\Entity\VcSavoiretreList;
 class AdminManager
 {
     private $entityManager;
+    private $logManager;
+    private $authService;
 
     /**
      * Constructs the service.
      */
-    public function __construct($entityManager)
+    public function __construct($entityManager, $logManager, $authService)
     {
         $this->entityManager = $entityManager;
+        $this->logManager = $logManager;
+        $this->authService = $authService;
     }
 
     public function addAdmin($userId)
@@ -33,6 +37,9 @@ class AdminManager
         $user->setAdmin(USER::USER_IS_ADMIN);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        $log = $user->getLastname()." ".$user->getFirstname()." ajouté en tant que administrateur ";
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return true;
     }
 
@@ -57,6 +64,9 @@ class AdminManager
         $user->setAdmin(USER::USER_NOT_ADMIN);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        $log = $user->getLastname()." ".$user->getFirstname()." suprimé des administrateurs ";
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return true;
     }
 
@@ -67,26 +77,31 @@ class AdminManager
         $newApec->setIntitule($data['intitule']);
         $this->entityManager->persist($newApec);
         $this->entityManager->flush();
+
+        $log = "Ajout APEC : ".$data['intitule'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function delApec($ids)
     {
         $result = true;
-
+        $log = "Supression APEC : ";
         $apecs = $this->entityManager->getRepository(VcApec::class)
                             ->findById($ids);
 
         foreach ($apecs as $apec) {
             if ($apec->getMinicv()->count() > 0) {
+                $log .= $apec->getIntitule()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $apec->getIntitule()." => suprimé ";
             $this->entityManager->remove($apec); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 
@@ -97,26 +112,31 @@ class AdminManager
         $newMetier->setNom($data['intitule']);
         $this->entityManager->persist($newMetier);
         $this->entityManager->flush();
+
+        $log = "Ajout METIER : ".$data['intitule'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function delMetier($ids)
     {
         $result = true;
-
+        $log = "Supression METIER : ";
         $metiers = $this->entityManager->getRepository(VcMetier::class)
                             ->findById($ids);
 
         foreach ($metiers as $metier) {
             if ($metier->getComp()->count() > 0 || $metier->getCompBis()->count() > 0) {
+                $log .= $metier->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $metier->getNom()." => suprimé ";
             $this->entityManager->remove($metier); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 
@@ -134,6 +154,9 @@ class AdminManager
         $newComp->setMetier($metier);
         $this->entityManager->persist($newComp);
         $this->entityManager->flush();
+
+        $log = "Ajout COMPETENCE : ".$data['nom'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function addCompBis($data)
@@ -150,24 +173,32 @@ class AdminManager
         $newCompBis->setMetier($metier);
         $this->entityManager->persist($newCompBis);
         $this->entityManager->flush();
+
+        $log = "Ajout COMPETENCE complémentaire : ".$data['nom'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
+
     public function delComp($ids)
     {
         $result = true;
-
+        $log = "Supression COMPETENCE : ";
         $comps = $this->entityManager->getRepository(VcComp::class)
                             ->findById($ids);
 
         foreach ($comps as $comp) {
             if ($comp->getMinicv()->count() > 0) {
+                $log .= $comp->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $comp->getNom()." => suprimé ";
             $this->entityManager->remove($comp); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
+
+        $this->logManager->addLog($log, $this->authService->getIdentity());
 
         return $result;
     }
@@ -175,21 +206,23 @@ class AdminManager
     public function delCompBis($ids)
     {
         $result = true;
-
+        $log = "Supression COMPETENCE complémentaire : ";
         $compBiss = $this->entityManager->getRepository(VcCompBis::class)
                             ->findById($ids);
 
         foreach ($compBiss as $compBis) {
             if ($compBis->getMinicv()->count() > 0) {
+                $log .= $compBis->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $compBis->getNom()." => suprimé ";
             $this->entityManager->remove($compBis); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 
@@ -201,26 +234,31 @@ class AdminManager
         $newSecteur->setType($data['type']);
         $this->entityManager->persist($newSecteur);
         $this->entityManager->flush();
+
+        $log = "Ajout SECTEUR : ".$data['nom'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function delSecteur($ids)
     {
         $result = true;
-
+        $log = "Supression SECTEUR : ";
         $secteurs = $this->entityManager->getRepository(VcSecteur::class)
                             ->findById($ids);
 
         foreach ($secteurs as $secteur) {
             if ($secteur->getMinicv()->count() > 0) {
+                $log .= $secteur->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $secteur->getNom()." => suprimé ";
             $this->entityManager->remove($secteur); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 
@@ -231,6 +269,9 @@ class AdminManager
         $newSeCat->setNom($data['nom']);
         $this->entityManager->persist($newSeCat);
         $this->entityManager->flush();
+
+        $log = "Ajout CATEGORIE SAVOIR ETRE : ".$data['nom'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function addSe($data)
@@ -248,47 +289,54 @@ class AdminManager
 
         $this->entityManager->persist($newSe);
         $this->entityManager->flush();
+
+        $log = "Ajout SAVOIR ETRE : ".$data['nom'];
+        $this->logManager->addLog($log, $this->authService->getIdentity());
     }
 
     public function delSeCat($ids)
     {
         $result = true;
-
+        $log = "Supression CAT SAVOIR ETRE : ";
         $seCats = $this->entityManager->getRepository(VcSavoiretre::class)
                             ->findById($ids);
 
         foreach ($seCats as $seCat) {
             if ($seCat->getSeList()->count() > 0) {
+                $log .= $seCat->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $seCat->getNom()." => suprimé ";
             $this->entityManager->remove($seCat); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 
     public function delSe($ids)
     {
         $result = true;
-
+        $log = "Supression SAVOIR ETRE : ";
         $ses = $this->entityManager->getRepository(VcSavoiretreList::class)
                             ->findById($ids);
 
         foreach ($ses as $se) {
             if ($se->getMinicv()->count() > 0) {
+                $log .= $se->getNom()." => refus ";
                 $result = false; // partial delete
                 continue; // skip this one don't delete it, it's under use
             }
+            $log .= $se->getNom()." => suprimé ";
             $this->entityManager->remove($se); // delete it
         }
 
         //apply to db
         $this->entityManager->flush();
-
+        $this->logManager->addLog($log, $this->authService->getIdentity());
         return $result;
     }
 }

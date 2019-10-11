@@ -1,0 +1,46 @@
+<?php
+$title = 'Journaux ';
+
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/admin/admin.css'));
+
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<table class="table table-hover table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Utilisateur</th>
+      <th scope="col">journal</th>
+    </tr>
+  </thead>
+  <tbody>
+      <?php
+      foreach ($logs as $log) :
+      ?>
+        <tr>
+          <th scope="row"><?= $log->getId(); ?></th>
+          <td><?= date('d/m/Y - H\hi', $log->getDate()->getTimestamp()); ?></td>
+          <td><?= $log->getUser()->getLastname()." ".$log->getUser()->getFirstname(); ?></td>
+          <td><?= $log->getLog(); ?></td>
+        </tr>
+    <?php endforeach; ?>
+
+  </tbody>
+</table>
+
+<?= $this->paginationControl(
+          $logs,
+          'Sliding',
+          'adherents/partial/logpaginator',
+          array('route' => 'admin')
+      ); ?>
+
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/admin/metier.js'));
+ ?>

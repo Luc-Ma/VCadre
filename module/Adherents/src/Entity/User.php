@@ -4,6 +4,7 @@ namespace Adherents\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Adherents\Entity\VcMinicv;
+use Adherents\Entity\VcLog;
 
 /**
  * This class represents a registered user.
@@ -59,11 +60,18 @@ class User
      */
     protected $minicv;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Adherents\Entity\VcLog", mappedBy="user")
+     * @ORM\JoinColumn(name="rowid", referencedColumnName="user")
+     */
+    protected $log;
+
 
     //constructor
     public function __construct()
     {
         $this->minicv = new ArrayCollection();
+        $this->log = new ArrayCollection();
     }
 
     /**
@@ -82,6 +90,24 @@ class User
     public function addMinicv($minicv)
     {
         $this->minicv[] = $minicv;
+    }
+
+    /**
+     * Returns logs .
+     * @return array
+     */
+    public function getLog()
+    {
+        return $this->log;
+    }
+
+    /**
+     * Adds new logs.
+     * @param $comp
+     */
+    public function addLog($log)
+    {
+        $this->log[] = $log;
     }
 
     /**

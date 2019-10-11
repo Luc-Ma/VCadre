@@ -1,0 +1,46 @@
+<?php if ($this->pageCount): ?>
+
+<nav>
+<ul class="pagination">
+
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+    <li>
+      <a class="hmod" href="<?= $this->url($this->route, ['action' => 'log'], ['query'=>['page'=>$this->previous]]); ?>" aria-label="Previous">
+        <span aria-hidden="true"><button type="button" class="btn btn-primary">Précédent</button>&nbsp;</span>
+      </a>
+    </li>
+<?php else: ?>
+    <li>
+        <span aria-hidden="true"><button type="button" class="btn btn-primary">Précédent</button>&nbsp;</span>
+    </li>
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <li>
+        <a class="hmod" href="<?= $this->url($this->route, ['action' => 'log'], ['query'=>['page'=>$page]]); ?>"><button type="button" class="btn btn-outline-primary"><?= $this->escapeHtml($page); ?></button></a>&nbsp;
+    </li>
+  <?php else: ?>
+    <li>
+        <span aria-hidden="true"><button type="button" class="btn btn-primary"><?= $this->escapeHtml($page); ?></button>&nbsp;</span>
+    </li>
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+    <li>
+      <a class="hmod" href="<?php echo $this->url($this->route, ['action' => 'log'], ['query'=>['page'=>$this->next]]); ?>" aria-label="Next">
+        <span aria-hidden="true"><button type="button" class="btn btn-primary">Suivant</button>&nbsp;</span>
+      </a>
+    </li>
+<?php else: ?>
+    <li>
+        <span aria-hidden="true"><button type="button" class="btn btn-primary">Suivant</button>&nbsp;</span>
+    </li>
+<?php endif; ?>
+</ul>
+</nav>
+<?php endif; ?>

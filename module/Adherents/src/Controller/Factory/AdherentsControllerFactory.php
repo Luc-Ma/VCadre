@@ -4,6 +4,7 @@ namespace Adherents\Controller\Factory;
 use Adherents\Controller\AdherentsController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Authentication\AuthenticationService;
 
 /**
  * This is the factory for AdherentsController. Its purpose is to instantiate the controller
@@ -13,8 +14,8 @@ class AdherentsControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $container->get('Config');
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new AdherentsController($entityManager, $config);
+        $authService = $container->get(AuthenticationService::class);
+        return new AdherentsController($entityManager, $authService);
     }
 }

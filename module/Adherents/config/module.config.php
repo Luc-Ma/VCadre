@@ -63,6 +63,7 @@ return [
             Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
             Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
             Service\AdminManager::class => Service\Factory\AdminManagerFactory::class,
+            Service\LogManager::class => Service\Factory\LogManagerFactory::class,
         ],
     ],
     'view_manager' => [
