@@ -2,8 +2,10 @@
 $title = 'Acceuil';
 
 $this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/adherents/upload.css'));
 
-$count = $user->getMinicv()->count();
+$minicvCount = $user->getMinicv()->count();
+$cvCount = $user->getUpload()->count();
 ?>
 <div class="row justify-content-center">
     <h1 class="mt-4 mb-5">
@@ -13,20 +15,43 @@ $count = $user->getMinicv()->count();
 <div class="row mt-2">
     <h4><a href="<?= $this->url('adherents', ['action' => 'new']); ?>">Créer un nouveau mini cv</a></h4>
 </div>
+
+<?php if ($cvCount == 0) : ?>
 <div class="row my-2">
     <h4><a href="<?= $this->url('adherents', ['action' => 'upload']); ?>">Uploader votre CV</a></h4>
 </div>
-<?php if ($count > 0): ?>
+<?php endif; ?>
+<?php if ($minicvCount > 0): ?>
 <div class="row my-2">
-    <table class="table">
-      <tbody>
-          <tr>
-              <td></td>
-          </tr>
-      </tbody>
-    </table>
+
+</div>
+<?php endif; ?>
+<?php if ($cvCount > 0) :
+    if ($user->getUpload()->first()->getPublic()) {
+        $priv = "";
+        $pub = "checked";
+    } else {
+        $priv = "checked";
+        $pub = "";
+    }
+?>
+<div class="row mt-5">
+    <div class="col">
+         <a href="<?= "/cv/".$user->getUpload()->first()->getFile(); ?>">Télécharger votre cv</a>
+    </div>
+    <div class="col">
+        <span class="group">
+        <input type="radio" class="prive" name="state" id="priv" <?= $priv; ?>>
+        <label for="priv">Privé</label>
+        <input type="radio" class="public" name="state" id="pub" <?= $pub; ?>>
+        <label for="pub">Public</label>
+        </span>
+    </div>
+    <div class="col">
+        <button id="delete" type="button" class="btn mt-3 btn-danger btn-lg btn-block">Suprimer mon cv</button>
+    </div>
 </div>
 <?php endif; ?>
 <?php
-//$this->inlineScript()->appendFile($this->basePath('js/admin/se.js'));
+$this->inlineScript()->appendFile($this->basePath('js/adherents/upload.js'));
  ?>

@@ -118,7 +118,6 @@ class AdherentsController extends AbstractActionController
             return ['form' => $form, 'user' => $curUser];
         }
         $data = $form->getData();
-
         $this->adherentsService->addUpload($data, $curUser);
 
         return $this->redirect()->toRoute('home');

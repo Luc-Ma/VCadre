@@ -46,7 +46,7 @@ print_r($form->getMessages());
 </div>
 <div class="row mt-5">
     <div class="col">
-         <a href="<?= "/cv/cv_".$user->getLastname()."_".$user->getFirstname().".pdf"; ?>">Télécharger votre cv</a>
+         <a href="<?= "/cv/".$user->getUpload()->first()->getFile(); ?>">Télécharger votre cv</a>
     </div>
     <div class="col">
         <span class="group">

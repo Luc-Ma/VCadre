@@ -25,8 +25,9 @@ class UploadForm extends Form
         // Define form name
         parent::__construct('upload');
 
-        $this->filename = "cv_".$user->getLastname()."_".$user->getFirstname().".pdf";
-
+        $this->filename = "cv_".$user->getLastname()."_".$user->getFirstname();
+        $this->filename .= uniqid().".pdf";
+        
         // Set POST method for this form
         $this->setAttribute('method', 'post');
 

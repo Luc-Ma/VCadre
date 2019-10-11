@@ -20,8 +20,9 @@ class AdherentsManager
 
     public function addUpload($data, $user)
     {
-        $filename = "cv_".$user->getLastname()."_".$user->getFirstname().".pdf";
         $newUpload = new VcUpload();
+
+        $filename = str_replace("./public/cv/", "", $data['cv']['tmp_name']);
         $newUpload->setFile($filename);
         $newUpload->setUser($user);
 
