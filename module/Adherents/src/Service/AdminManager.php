@@ -9,6 +9,9 @@ use Adherents\Entity\VcCompBis;
 use Adherents\Entity\VcSecteur;
 use Adherents\Entity\VcSavoiretre;
 use Adherents\Entity\VcSavoiretreList;
+use Adherents\Entity\VcContrat;
+use Adherents\Entity\VcDispo;
+use Adherents\Entity\VcMobilite;
 
 class AdminManager
 {
@@ -332,6 +335,111 @@ class AdminManager
             }
             $log .= $se->getNom()." => suprimé ";
             $this->entityManager->remove($se); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+        $this->logManager->addLog($log);
+        return $result;
+    }
+
+    public function addContrat($data)
+    {
+        $newContrat = new VcContrat();
+
+        $newContrat->setType($data['type']);
+        $this->entityManager->persist($newContrat);
+        $this->entityManager->flush();
+
+        $log = "Ajout Contrat : ".$data['type'];
+        $this->logManager->addLog($log);
+    }
+
+    public function delContrat($ids)
+    {
+        $result = true;
+        $log = "Supression Contrat : ";
+        $contrats = $this->entityManager->getRepository(VcContrat::class)
+                            ->findById($ids);
+
+        foreach ($contrats as $contrat) {
+            if ($contrat->getMinicv()->count() > 0) {
+                $log .= $contrat->getType()." => refus ";
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $log .= $contrat->getType()." => suprimé ";
+            $this->entityManager->remove($contrat); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+        $this->logManager->addLog($log);
+        return $result;
+    }
+
+    public function addDispo($data)
+    {
+        $newDispo = new VcDispo();
+
+        $newDispo->setDispo($data['dispo']);
+        $this->entityManager->persist($newDispo);
+        $this->entityManager->flush();
+
+        $log = "Ajout Disponibilité : ".$data['dispo'];
+        $this->logManager->addLog($log);
+    }
+
+    public function delDispo($ids)
+    {
+        $result = true;
+        $log = "Supression disponibilité : ";
+        $dispos = $this->entityManager->getRepository(VcDispo::class)
+                            ->findById($ids);
+
+        foreach ($dispos as $dispo) {
+            if ($dispo->getMinicv()->count() > 0) {
+                $log .= $dispo->getDispo()." => refus ";
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $log .= $dispo->getDispo()." => suprimé ";
+            $this->entityManager->remove($dispo); // delete it
+        }
+
+        //apply to db
+        $this->entityManager->flush();
+        $this->logManager->addLog($log);
+        return $result;
+    }
+
+    public function addMob($data)
+    {
+        $newMob = new VcMobilite();
+
+        $newMob->setMobilite($data['mob']);
+        $this->entityManager->persist($newMob);
+        $this->entityManager->flush();
+
+        $log = "Ajout Mobilité : ".$data['mob'];
+        $this->logManager->addLog($log);
+    }
+
+    public function delMob($ids)
+    {
+        $result = true;
+        $log = "Supression Mobilité : ";
+        $mobs = $this->entityManager->getRepository(VcMobilite::class)
+                            ->findById($ids);
+
+        foreach ($mobs as $mob) {
+            if ($mob->getMinicv()->count() > 0) {
+                $log .= $mob->getMobilite()." => refus ";
+                $result = false; // partial delete
+                continue; // skip this one don't delete it, it's under use
+            }
+            $log .= $mob->getMobilite()." => suprimé ";
+            $this->entityManager->remove($mob); // delete it
         }
 
         //apply to db

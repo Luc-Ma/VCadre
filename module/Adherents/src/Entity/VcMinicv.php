@@ -47,6 +47,13 @@ class VcMinicv
     /**
      * @var int
      *
+     * @ORM\Column(name="step", type="integer", precision=0, scale=0, nullable=true, unique=false)
+     */
+    private $step = 0;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="profil", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
     private $profil;
@@ -514,6 +521,30 @@ class VcMinicv
     public function getPublish()
     {
         return $this->publish;
+    }
+
+    /**
+     * Set step.
+     *
+     * @param int $step
+     *
+     * @return VcMinicv
+     */
+    public function setStep($step)
+    {
+        $this->step = $step;
+
+        return $this;
+    }
+
+    /**
+     * Get step.
+     *
+     * @return int
+     */
+    public function getStep()
+    {
+        return $this->step;
     }
 
     /**

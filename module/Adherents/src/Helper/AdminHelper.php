@@ -9,6 +9,9 @@ use Adherents\Entity\VcCompBis;
 use Adherents\Entity\VcSecteur;
 use Adherents\Entity\VcSavoiretre;
 use Adherents\Entity\VcSavoiretreList;
+use Adherents\Entity\VcContrat;
+use Adherents\Entity\VcDispo;
+use Adherents\Entity\VcMobilite;
 
 /**
  * This view helper class displays login informatioon
@@ -126,6 +129,59 @@ class AdminHelper extends AbstractHelper
         foreach ($apecs as $apec) {
             $result .= '<option value="'.$apec->getId().'">';
             $result .= $apec->getIntitule();
+            $result .= '</option>';
+        }
+
+        $result .= '</select>';
+
+        return $result;
+    }
+
+    public function renderContrat()
+    {
+        $contrats = $this->entityManager->getRepository(VcContrat::class)->findAll();
+
+
+        $result = '<select id="icontrat" class="multis bg-transparent" name="contrat[]" multiple>';
+
+        foreach ($contrats as $contrat) {
+            $result .= '<option value="'.$contrat->getId().'">';
+            $result .= $contrat->getType();
+            $result .= '</option>';
+        }
+
+        $result .= '</select>';
+
+        return $result;
+    }
+
+    public function renderDispo()
+    {
+        $dispos = $this->entityManager->getRepository(VcDispo::class)->findAll();
+
+
+        $result = '<select id="idispo" class="multis bg-transparent" name="dispo[]" multiple>';
+
+        foreach ($dispos as $dispo) {
+            $result .= '<option value="'.$dispo->getId().'">';
+            $result .= $dispo->getDispo();
+            $result .= '</option>';
+        }
+
+        $result .= '</select>';
+
+        return $result;
+    }
+    public function renderMob()
+    {
+        $mobs = $this->entityManager->getRepository(VcMobilite::class)->findAll();
+
+
+        $result = '<select id="imob" class="multis bg-transparent" name="mob[]" multiple>';
+
+        foreach ($mobs as $mob) {
+            $result .= '<option value="'.$mob->getId().'">';
+            $result .= $mob->getMobilite();
             $result .= '</option>';
         }
 

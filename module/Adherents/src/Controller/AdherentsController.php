@@ -13,12 +13,14 @@ class AdherentsController extends AbstractActionController
     private $entityManager;
     private $authService;
     private $adherentsService;
+    private $config;
 
-    public function __construct($entityManager, $authService, $adherentsService)
+    public function __construct($entityManager, $authService, $adherentsService, $config)
     {
         $this->entityManager = $entityManager;
         $this->authService = $authService;
         $this->adherentsService = $adherentsService;
+        $this->config = $config;
     }
 
     public function indexAction()

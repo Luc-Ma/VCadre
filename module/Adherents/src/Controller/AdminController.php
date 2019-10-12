@@ -16,6 +16,9 @@ use Adherents\Form\Admin\CompBisForm;
 use Adherents\Form\Admin\SecteurForm;
 use Adherents\Form\Admin\SeForm;
 use Adherents\Form\Admin\SeCatForm;
+use Adherents\Form\Admin\ContratForm;
+use Adherents\Form\Admin\DispoForm;
+use Adherents\Form\Admin\MobForm;
 
 class AdminController extends AbstractActionController
 {
@@ -113,6 +116,18 @@ class AdminController extends AbstractActionController
                 case '8': //delete savoir etre
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adminService->delSe($id);
+                    break;
+                case '9': //delete contrat
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delContrat($id);
+                    break;
+                case '10': //delete dispo
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delDispo($id);
+                    break;
+                case '11': //delete dispo
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->delMob($id);
                     break;
                 default:
                     $result = false;
@@ -321,5 +336,77 @@ class AdminController extends AbstractActionController
         $this->adminService->addSe($data);
 
         return $this->redirect()->toRoute('admin', ['action' => 'savoiretre']);
+    }
+    public function contratAction()
+    {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $form = new ContratForm();
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addContrat($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'contrat']);
+    }
+    public function dispoAction()
+    {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $form = new DispoForm();
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addDispo($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'dispo']);
+    }
+    public function mobAction()
+    {
+        if (!self::checkAccess()) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $form = new MobForm();
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $this->adminService->addMob($data);
+
+        return $this->redirect()->toRoute('admin', ['action' => 'mob']);
     }
 }

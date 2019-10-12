@@ -131,4 +131,10 @@ return [
             ], */
         ]
     ],
+    'Adherents' => [
+        'options' => [
+            'competence' => 3,
+            'competenceBis' => 3,
+        ]
+    ],
 ];

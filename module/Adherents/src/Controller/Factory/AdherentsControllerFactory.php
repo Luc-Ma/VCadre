@@ -18,6 +18,7 @@ class AdherentsControllerFactory implements FactoryInterface
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $authService = $container->get(AuthenticationService::class);
         $adherentsService = $container->get(AdherentsManager::class);
-        return new AdherentsController($entityManager, $authService, $adherentsService);
+        $config = $container->get('Config');
+        return new AdherentsController($entityManager, $authService, $adherentsService, $config);
     }
 }
