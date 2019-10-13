@@ -112,6 +112,14 @@ class MinicvP3Form extends Form
                 'label' => 'Votre location :  ',
             ],
         ]);
+        $this->add([
+            'type'  => 'submit',
+            'name' => 'submit',
+            'attributes' => [
+                'value' => 'Suivant',
+                'id' => 'submit',
+            ],
+        ]);
     }
 
     private function addInputFilter()

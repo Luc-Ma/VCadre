@@ -55,6 +55,14 @@ class MinicvP6Form extends Form
                 'value_options' => $this->getArraySe(),
             ],
         ]);
+        $this->add([
+            'type'  => 'submit',
+            'name' => 'submit',
+            'attributes' => [
+                'value' => 'Envoyer',
+                'id' => 'submit',
+            ],
+        ]);
     }
 
     private function addInputFilter()

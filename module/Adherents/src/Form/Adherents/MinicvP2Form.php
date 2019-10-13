@@ -33,6 +33,7 @@ class MinicvP2Form extends Form
             'name' => 'xp',
             'options' => [
                 'label' => 'Expérience du poste :  ',
+                'placeholder' => '30 ans',
             ],
         ]);
         //  exp total
@@ -49,6 +50,14 @@ class MinicvP2Form extends Form
             'name' => 'formation',
             'options' => [
                 'label' => 'Vos formations : ',
+            ],
+        ]);
+        $this->add([
+            'type'  => 'submit',
+            'name' => 'submit',
+            'attributes' => [
+                'value' => 'Suivant',
+                'id' => 'submit',
             ],
         ]);
     }

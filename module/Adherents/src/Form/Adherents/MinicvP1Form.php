@@ -22,7 +22,7 @@ class MinicvP1Form extends Form
     public function __construct($entityManager)
     {
         $this->entityManager = $entityManager;
-        
+
         // Define form name
         parent::__construct('minicvp1');
 
@@ -70,7 +70,7 @@ class MinicvP1Form extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Envoyer',
+                'value' => 'Suivant',
                 'id' => 'submit',
             ],
         ]);

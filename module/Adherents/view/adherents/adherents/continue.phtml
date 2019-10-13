@@ -1,0 +1,80 @@
+<?php
+$title = 'Créer un mini cv étape '.($step +1) ;
+
+$this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+
+switch ($step) {
+    case 2:
+        $elements = [
+            [
+                'name' => 'contrat',
+                'class' => 'form-control test'
+            ],
+            [
+                'name' => 'dispo',
+                'class' => 'selectpicker form-control'
+            ],
+            [
+                'name' => 'mob',
+                'class' => 'selectpicker form-control'
+            ],
+            [
+                'name' => 'source',
+                'class' => 'form-control'
+            ],
+        ];
+        break;
+    case 1:
+    default:
+        $elements = [
+            [
+                'name' => 'xp',
+                'class' => 'form-control'
+            ],
+            [
+                'name' => 'xptot',
+                'class' => 'form-control'
+            ],
+            [
+                'name' => 'formation',
+                'class' => 'form-control'
+            ],
+        ];
+        break;
+}
+
+foreach ($elements as $element) {
+    $form->get($element['name'])->setAttributes([
+        'class' => $element['class'],
+    ]);
+}
+$form->prepare();
+
+?>
+<style>
+
+</style>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        <?= $title; ?>
+    </h1>
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <?= $this->form()->openTag($form); ?>
+        <?php foreach ($elements as $element): ?>
+        <div class="form-group">
+            <?= $this->formLabel($form->get($element['name'])); ?>
+            <?= $this->formElement($form->get($element['name'])); ?>
+            <?= $this->formElementErrors($form->get($element['name'])); ?>
+        </div>
+    <?php endforeach; ?>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
+<?php
+//$this->inlineScript()->appendFile($this->basePath('js/adherents/minicv.js'));
+ ?>

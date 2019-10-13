@@ -25,9 +25,10 @@ return [
             'adherents' => [
                 'type'   => Segment::class,
                 'options' => [
-                    'route' => '/adherents[/:action]',
+                    'route' => '/adherents[/:action][/:id]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
                     ],
                     'defaults' => [
                             'controller' => Controller\AdherentsController::class,

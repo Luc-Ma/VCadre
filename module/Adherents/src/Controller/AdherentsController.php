@@ -7,6 +7,13 @@ use Zend\View\Model\JsonModel;
 use Adherents\Entity\User;
 use Adherents\Entity\VcMinicv;
 use Adherents\Form\Adherents\UploadForm;
+use Adherents\Form\Adherents\MinicvP1Form;
+use Adherents\Form\Adherents\MinicvP2Form;
+use Adherents\Form\Adherents\MinicvP3Form;
+use Adherents\Form\Adherents\MinicvP4Form;
+use Adherents\Form\Adherents\MinicvP5Form;
+use Adherents\Form\Adherents\MinicvP6Form;
+use Adherents\Form\Adherents\MinicvP7Form;
 
 class AdherentsController extends AbstractActionController
 {
@@ -53,13 +60,13 @@ class AdherentsController extends AbstractActionController
                 case '2': //suprimé cv
                     $result = $this->adherentsService->delUpload($curUser);
                     break;
-                case '3': //delete metier.s
+                case '3': //changer minicv priv-pub
                     $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delMetier($id);
+                    $result = $this->adherentsService->changeMinicvState($id, $curUser);
                     break;
-                case '4': //delete comp.s
+                case '4': //delete minicv
                     $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delComp($id);
+                    $result = $this->adherentsService->delMinicv($id, $curUser);
                     break;
                 case '5': //delete compbis.s
                     $id = $this->params()->fromPost('id', null);
@@ -95,6 +102,85 @@ class AdherentsController extends AbstractActionController
 
     public function newAction()
     {
+        $curUser = $this->entityManager->getRepository(User::class)
+                    ->findOneByUsername($this->authService->getIdentity());
+
+        $form = new MinicvP1Form($this->entityManager);
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form, 'error' => true];
+        }
+        $data = $form->getData();
+
+        $id = $this->adherentsService->addMinicv($data, $curUser);
+
+        return $this->redirect()->toRoute('adherents', ['action' => 'continue','id' => $id]);
+    }
+
+    public function continueAction()
+    {
+        $curUser = $this->entityManager->getRepository(User::class)
+                    ->findOneByUsername($this->authService->getIdentity());
+
+        $id = $this->params()->fromRoute('id', null);
+
+        if ($id === null) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        //check ID is possesed by user
+        $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                    ->findOneById($id);
+        if ($minicv === null || ($minicv->getUser()->getId() != $curUser->getId())) {
+            return $this->redirect()->toRoute('home');
+        }
+        $step = $minicv->getStep();
+
+        switch ($step) {
+            case 1:
+                $form = new MinicvP2Form();
+                break;
+            case 2:
+                $form = new MinicvP3Form($this->entityManager);
+                break;
+            case 3:
+                $form = new MinicvP4Form($this->entityManager);
+                break;
+            case 4:
+                $form = new MinicvP5Form($this->entityManager);
+                break;
+            case 5:
+                $form = new MinicvP6Form($this->entityManager);
+                break;
+            case 6:
+                $form = new MinicvP7Form($this->entityManager);
+                break;
+            default:
+                return $this->redirect()->toRoute('home');
+                break;
+        }
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return ['form' => $form,'step'=> $step];
+        }
+
+        $form->setData($request->getPost());
+
+        if (!$form->isValid()) {
+            return ['form' => $form,'step'=> $step];
+        }
+        $data = $form->getData();
+
+        $this->adherentsService->continueMinicv($id, $data, $step, $curUser);
+        return $this->redirect()->toRoute('adherents', ['action' => 'continue','id' => $id]);
     }
 
     public function uploadAction()

@@ -1,5 +1,5 @@
 <?php
-$title = 'Acceuil';
+$title = 'Accueil';
 
 $this->headTitle($title);
 $this->headLink()->appendStylesheet($this->basePath('css/adherents/upload.css'));
@@ -12,10 +12,58 @@ $cvCount = $user->getUpload()->count();
         <?= $title; ?>
     </h1>
 </div>
-<div class="row mt-2">
-    <h4><a href="<?= $this->url('adherents', ['action' => 'new']); ?>">Créer un nouveau mini cv</a></h4>
+<div class="row mb-5">
+    <h4>
+        <a href="<?= $this->url('adherents', ['action' => 'new']); ?>">
+        <button type="button" class="btn mt-3 btn-primary btn-block">Nouveau mini CV </button>
+        </a>
+    </h4>
 </div>
-
+<?php if ($minicvCount > 0):
+    foreach ($user->getMinicv() as $minicv):
+        if ($minicv->getPublish()) {
+            $mcvPriv = "";
+            $mcvPub = "checked";
+        } else {
+            $mcvPriv = "checked";
+            $mcvPub = "";
+        }
+        ?>
+    <div class="row mt-1">
+        <div class="col">
+             <a href="<?= $this->url('adherents', ['action' => 'view','id' => $minicv->getId()])?>">Voir <?= $minicv->getIntitule() ?></a>
+        </div>
+        <div class="col">
+            <?php if (!$minicv->getComplet()) : ?>
+                <a href="<?= $this->url('adherents', ['action' => 'continue','id' => $minicv->getId()])?>">
+                    <button type="button" class="btn mt-3 btn-success btn-block">Continuer ce mini CV</button>
+                </a>
+            <?php else : ?>
+                <p>Ce mini CV est complet !</p>
+            <?php endif; ?>
+        </div>
+        <div class="col">
+            <?php if ($minicv->getValid()) : ?>
+                <p>Ce mini CV est Validé !</p>
+            <?php else : ?>
+                <p>Ce mini CV est en attente de validation !</p>
+            <?php endif; ?>
+        </div>
+        <div class="col">
+            <span class="group">
+            <input type="radio" class="cvpriv" name="state<?= $minicv->getId(); ?>" id="u<?= $minicv->getId(); ?>" <?= $mcvPriv; ?>>
+            <label for="u<?= $minicv->getId(); ?>">Privé</label>
+            <input type="radio" class="cvpub" name="state<?= $minicv->getId(); ?>" id="p<?= $minicv->getId(); ?>" <?= $mcvPub; ?>>
+            <label for="p<?= $minicv->getId(); ?>">Public</label>
+            </span>
+        </div>
+        <div class="col">
+            <button id="<?= $minicv->getId(); ?>" name="<?=$minicv->getIntitule(); ?>" type="button" class="cvdelete btn mt-3 btn-danger btn-block">Suprimer ce mini CV</button>
+        </div>
+    </div>
+<?php endforeach; ?>
+<?php endif; ?>
+<hr />
 <?php if ($cvCount == 0) : ?>
 <div class="row my-2">
     <h4><a href="<?= $this->url('adherents', ['action' => 'upload']); ?>">Uploader votre CV</a></h4>
@@ -37,7 +85,7 @@ $cvCount = $user->getUpload()->count();
 ?>
 <div class="row mt-5">
     <div class="col">
-         <a href="<?= "/cv/".$user->getUpload()->first()->getFile(); ?>">Télécharger votre cv</a>
+         <a href="<?= "/cv/".$user->getUpload()->first()->getFile(); ?>">Télécharger votre CV</a>
     </div>
     <div class="col">
         <span class="group">
@@ -48,7 +96,7 @@ $cvCount = $user->getUpload()->count();
         </span>
     </div>
     <div class="col">
-        <button id="delete" type="button" class="btn mt-3 btn-danger btn-lg btn-block">Suprimer mon cv</button>
+        <button id="delete" type="button" class="btn mt-3 btn-danger btn-block">Suprimer mon CV</button>
     </div>
 </div>
 <?php endif; ?>
