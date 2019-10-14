@@ -4,6 +4,9 @@ namespace Adherents\Service;
 use Adherents\Entity\VcUpload;
 use Adherents\Entity\VcMinicv;
 use Adherents\Entity\VcApec;
+use Adherents\Entity\VcContrat;
+use Adherents\Entity\VcDispo;
+use Adherents\Entity\VcMobilite;
 use Doctrine\DBAL\Types\DateTimeType;
 
 class AdherentsManager
@@ -136,8 +139,25 @@ class AdherentsManager
                 $minicv->setFormation($data['formation']);
                 $minicv->setStep(2);
                 break;
+            case 2: //form 3
+                foreach ($data['contrat'] as $cID) {
+                    $contrat = $this->entityManager->getRepository(VcContrat::class)
+                                        ->findOneById($cID);
+                    $minicv->addContrat($contrat);
+                }
+                $dispo = $this->entityManager->getRepository(VcDispo::class)
+                                    ->findOneById($data['dispo']);
+                $mob = $this->entityManager->getRepository(VcMobilite::class)
+                                    ->findOneById($data['mob']);
+                $source = $data['source'];
 
+                $minicv->setDispo($dispo);
+                $minicv->setMobilite($mob);
+                $minicv->setMobiliteSource($source);
+                $minicv->setStep(3);
+                break;
             default:
+                return false;
                 break;
         }
         $this->entityManager->persist($minicv);

@@ -1,0 +1,16 @@
+.hiddenCB input[type="checkbox"],
+.hiddenCB input[type="radio"] {
+  display: none;
+
+}
+
+.hiddenCB label {
+
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 1.3em; 
+
+}
+.check {
+    background-color: #5dabf4;
+}

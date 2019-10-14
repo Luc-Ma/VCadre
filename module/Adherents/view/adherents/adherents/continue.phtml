@@ -4,13 +4,15 @@ $title = 'Créer un mini cv étape '.($step +1) ;
 $this->headTitle($title);
 $this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
 $this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headLink()->appendStylesheet($this->basePath('css/adherents/continue.css'));
 
 switch ($step) {
     case 2:
         $elements = [
             [
                 'name' => 'contrat',
-                'class' => 'form-control test'
+                'class' => 'form-control multicheck',
+                'spe' => true,
             ],
             [
                 'name' => 'dispo',
@@ -23,6 +25,14 @@ switch ($step) {
             [
                 'name' => 'source',
                 'class' => 'form-control'
+            ],
+        ];
+        break;
+    case 3:
+        $elements = [
+            [
+                'name' => 'comp',
+                'class' => 'form-control multiselect',
             ],
         ];
         break;
@@ -53,9 +63,7 @@ foreach ($elements as $element) {
 $form->prepare();
 
 ?>
-<style>
 
-</style>
 <div class="row justify-content-center">
     <h1 class="mt-4 mb-5">
         <?= $title; ?>
@@ -65,7 +73,8 @@ $form->prepare();
     <div class="col">
         <?= $this->form()->openTag($form); ?>
         <?php foreach ($elements as $element): ?>
-        <div class="form-group">
+        <?php $add = isset($element['spe']) ? "hiddenCB" : ""; ?>
+        <div class="form-group <?= $add; ?>">
             <?= $this->formLabel($form->get($element['name'])); ?>
             <?= $this->formElement($form->get($element['name'])); ?>
             <?= $this->formElementErrors($form->get($element['name'])); ?>
@@ -76,5 +85,5 @@ $form->prepare();
     </div>
 </div>
 <?php
-//$this->inlineScript()->appendFile($this->basePath('js/adherents/minicv.js'));
+$this->inlineScript()->appendFile($this->basePath('js/adherents/continue.js'));
  ?>

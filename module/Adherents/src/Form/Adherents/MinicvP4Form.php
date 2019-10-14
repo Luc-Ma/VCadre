@@ -38,7 +38,7 @@ class MinicvP4Form extends Form
 
         $comps = $this->entityManager->getRepository(VcComp::class)->findAll();
 
-        foreach ($comp as $comp) {
+        foreach ($comps as $comp) {
             $mycomps[$comp->getId()] = $comp->getNom();
         }
 

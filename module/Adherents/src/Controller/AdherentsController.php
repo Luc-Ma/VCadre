@@ -178,7 +178,7 @@ class AdherentsController extends AbstractActionController
             return ['form' => $form,'step'=> $step];
         }
         $data = $form->getData();
-
+        //print_r($data);
         $this->adherentsService->continueMinicv($id, $data, $step, $curUser);
         return $this->redirect()->toRoute('adherents', ['action' => 'continue','id' => $id]);
     }
