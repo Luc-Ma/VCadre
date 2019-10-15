@@ -11,7 +11,7 @@ use Adherents\Entity\VcSavoiretre;
  * VcSavoiretreList
  *
  * @ORM\Table(name="vc_savoiretre_list", indexes={@ORM\Index(name="link_savoiretre", columns={"savoiretre"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Adherents\Repository\SeRepository")
  */
 class VcSavoiretreList
 {

@@ -55,4 +55,52 @@ class MinicvFormHelper extends AbstractHelper
         $data .= '</div>';
         return $data;
     }
+    public function renderSecteur()
+    {
+        $data = '<div class="row">';
+
+        for ($i = 0; $i < $this->config['Adherents']['options']['secteur']; $i++) {
+            $data .= '<div class="col">';
+            $data .= "Selectionnez un secteur cible : ";
+            $data .= '<select id='.$i.' class="selectpicker msecteur">';
+            $data .= '<option selected disable>options</option>';
+            $data .= '<option value="0">Primaire</option>';
+            $data .= '<option value="1">Secondaire</option>';
+            $data .= '<option value="2">Tertiaire</option>';
+            $data .= '</select><br />';
+            $data .= 'Selectionnez un secteur cible ';
+            $data .= '<select name="secteur'.$i.'" id="c'.$i.'" class="selectpicker secteur">';
+            $data .= '</select>';
+            $data .= '</div>';
+        }
+        $data .= '</div>';
+        return $data;
+    }
+
+    public function renderSe($type = "comp")
+    {
+        $ses = $this->entityManager->getRepository(VcSavoiretre::class)->findAll();
+
+        $value = "";
+        foreach ($ses as $se) {
+            $value .= '<option value="'.$se->getId().'">'.$se->getNom().'</option>';
+        }
+        $data = '<div class="row">';
+
+        for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
+            $data .= '<div class="col">';
+            $data .= "Selectionnez une catégorie : ";
+            $data .= '<select id='.$i.' class="selectpicker mse">';
+            $data .= '<option selected disable value="0">catégories</option>';
+            $data .= $value;
+            $data .= '</select><br />';
+            $data .= 'Selectionnez un savoir être ';
+            $data .= 'associée : <br />';
+            $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre">';
+            $data .= '</select>';
+            $data .= '</div>';
+        }
+        $data .= '</div>';
+        return $data;
+    }
 }

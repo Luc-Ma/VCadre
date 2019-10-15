@@ -15,7 +15,7 @@ class MinicvP5Form extends Form
      * @var Doctrine\ORM\EntityManager
      */
     private $entityManager = null;
-
+    private $config;
     /**
      * Constructor.
      */

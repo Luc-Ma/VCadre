@@ -15,13 +15,15 @@ class MinicvP6Form extends Form
      * @var Doctrine\ORM\EntityManager
      */
     private $entityManager = null;
+    private $config;
 
     /**
      * Constructor.
      */
-    public function __construct($entityManager)
+    public function __construct($entityManager, $config)
     {
         $this->entityManager = $entityManager;
+        $this->config = $config;
         // Define form name
         parent::__construct('minicvp6');
 
@@ -47,14 +49,17 @@ class MinicvP6Form extends Form
 
     protected function addElements()
     {
-        $this->add([
-            'type' => 'select',
-            'name' => 'secteur',
-            'options' => [
-                'label' => 'Selectionnez un secteur : ',
-                'value_options' => $this->getArraySecteur(),
-            ],
-        ]);
+        for ($i = 0; $i < $this->config['Adherents']['options']['secteur']; $i++) {
+            $this->add([
+                'type' => 'select',
+                'name' => 'secteur'.$i,
+                'options' => [
+                    'label' => 'Selectionnez un secteur : ',
+                    'value_options' => $this->getArraySecteur(),
+                ],
+            ]);
+        }
+        
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',

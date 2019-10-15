@@ -99,6 +99,10 @@ print_r($form->getMessages());
             <?= $this->FormHelper()->renderMetier(); ?>
         <?php elseif ($step == 4): ?>
             <?= $this->FormHelper()->renderMetier("compbis"); ?>
+        <?php elseif ($step == 5): ?>
+            <?= $this->FormHelper()->renderSecteur(); ?>
+        <?php elseif ($step == 6): ?>
+            <?= $this->FormHelper()->renderSe(); ?>
         <?php endif; ?>
         <div class="row mb-5">
         </div>

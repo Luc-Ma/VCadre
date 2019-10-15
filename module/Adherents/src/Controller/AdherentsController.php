@@ -9,6 +9,8 @@ use Adherents\Entity\VcMinicv;
 use Adherents\Entity\VcMetier;
 use Adherents\Entity\VcComp;
 use Adherents\Entity\VcCompBis;
+use Adherents\Entity\VcSecteur;
+use Adherents\Entity\VcSavoiretreList;
 use Adherents\Form\Adherents\UploadForm;
 use Adherents\Form\Adherents\MinicvP1Form;
 use Adherents\Form\Adherents\MinicvP2Form;
@@ -76,6 +78,28 @@ class AdherentsController extends AbstractActionController
                         $data[] = [
                             'name' => $comp->getNom(),
                             'value' => $comp->getId(),
+                        ];
+                    }
+                    break;
+                case 2:
+                    $secteurs =  $this->entityManager->getRepository(VcSecteur::class)
+                                ->findBySecteur($value);
+
+                    foreach ($secteurs as $secteur) {
+                        $data[] = [
+                            'name' => $secteur->getNom(),
+                            'value' => $secteur->getId(),
+                        ];
+                    }
+                    break;
+                case 3:
+                    $ses =  $this->entityManager->getRepository(VcSavoiretreList::class)
+                                ->findBySe($value);
+
+                    foreach ($ses as $se) {
+                        $data[] = [
+                            'name' => $se->getNom(),
+                            'value' => $se->getId(),
                         ];
                     }
                     break;

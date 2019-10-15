@@ -8,7 +8,9 @@ use Adherents\Entity\VcContrat;
 use Adherents\Entity\VcDispo;
 use Adherents\Entity\VcComp;
 use Adherents\Entity\VcCompBis;
+use Adherents\Entity\VcSecteur;
 use Adherents\Entity\VcMobilite;
+use Adherents\Entity\VcSavoiretreList;
 use Doctrine\DBAL\Types\DateTimeType;
 
 class AdherentsManager
@@ -164,6 +166,9 @@ class AdherentsManager
                 for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
                     $comp = $this->entityManager->getRepository(VcComp::class)
                                         ->findOneById($data['comp'.$i]);
+                    if ($comp === null) {
+                        continue;
+                    }
                     $minicv->addComp($comp);
                 }
                 $minicv->setStep(4);
@@ -172,9 +177,35 @@ class AdherentsManager
                 for ($i = 0; $i < $this->config['Adherents']['options']['competenceBis']; $i++) {
                     $comp = $this->entityManager->getRepository(VcCompBis::class)
                                         ->findOneById($data['compbis'.$i]);
-                    $minicv->addComp($comp);
+                    if ($comp === null) {
+                        continue;
+                    }
+                    $minicv->addCompBis($comp);
                 }
                 $minicv->setStep(5);
+                break;
+            case 5: // form 5
+                for ($i = 0; $i < $this->config['Adherents']['options']['secteur']; $i++) {
+                    $secteur = $this->entityManager->getRepository(VcSecteur::class)
+                                        ->findOneById($data['secteur'.$i]);
+                    if ($secteur === null) {
+                        continue;
+                    }
+                    $minicv->addSecteur($secteur);
+                }
+                $minicv->setStep(6);
+                break;
+            case 6: // form 6
+                for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
+                    $se = $this->entityManager->getRepository(VcSavoiretreList::class)
+                                        ->findOneById($data['se'.$i]);
+                    if ($secteur === null) {
+                        continue;
+                    }
+                    $minicv->addSecteur($se);
+                }
+                $minicv->setStep(7);
+                $minicv->setComplet(VcMinicv::PROFIL_IS_COMPLETE);
                 break;
             default:
                 return false;

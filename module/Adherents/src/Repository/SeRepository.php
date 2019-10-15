@@ -2,27 +2,27 @@
 namespace Adherents\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Adherents\Entity\VcSecteur;
+use Adherents\Entity\VcSavoiretreList;
 
 /**
  * This is the custom repository class for User entity.
  */
-class SecteurRepository extends EntityRepository
+class SeRepository extends EntityRepository
 {
     public function findAll()
     {
-        return $this->findBy(array(), array('type' => 'ASC'));
+        return $this->findBy(array(), array('nom' => 'ASC'));
     }
 
-    public function findBySecteur($secteur)
+    public function findBySe($se)
     {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
 
         $queryBuilder->select('s')
-            ->from(VcSecteur::class, 's')
-            ->andWhere('s.type = ?1')
-            ->setParameter('1', $secteur);
+            ->from(VcSavoiretreList::class, 's')
+            ->andWhere('s.savoiretre = ?1')
+            ->setParameter('1', $se);
 
         return $queryBuilder->getQuery()->getResult();
     }
