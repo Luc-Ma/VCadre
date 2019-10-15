@@ -11,7 +11,7 @@ use Adherents\Entity\VcMinicv;
  * VcCompBis
  *
  * @ORM\Table(name="vc_comp_bis", indexes={@ORM\Index(name="link_metier_bis", columns={"metier"})})
- * @ORM\Entity(repositoryClass="\Adherents\Repository\CompRepository")
+ * @ORM\Entity(repositoryClass="\Adherents\Repository\CompBisRepository")
  */
 class VcCompBis
 {

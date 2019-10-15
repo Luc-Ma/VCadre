@@ -47,7 +47,7 @@ class MinicvFormHelper extends AbstractHelper
             if ($type != "comp") {
                 $data .= "secondaire ";
             }
-            $data .= 'associée :';
+            $data .= 'associée : <br />';
             $data .= '<select name="'.$type.$i.'" id="c'.$i.'" class="selectpicker '.$option.'">';
             $data .= '</select>';
             $data .= '</div>';

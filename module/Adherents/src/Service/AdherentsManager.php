@@ -168,7 +168,14 @@ class AdherentsManager
                 }
                 $minicv->setStep(4);
                 break;
-                
+            case 4: // form 5
+                for ($i = 0; $i < $this->config['Adherents']['options']['competenceBis']; $i++) {
+                    $comp = $this->entityManager->getRepository(VcCompBis::class)
+                                        ->findOneById($data['compbis'.$i]);
+                    $minicv->addComp($comp);
+                }
+                $minicv->setStep(5);
+                break;
             default:
                 return false;
                 break;

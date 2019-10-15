@@ -8,6 +8,7 @@ use Adherents\Entity\User;
 use Adherents\Entity\VcMinicv;
 use Adherents\Entity\VcMetier;
 use Adherents\Entity\VcComp;
+use Adherents\Entity\VcCompBis;
 use Adherents\Form\Adherents\UploadForm;
 use Adherents\Form\Adherents\MinicvP1Form;
 use Adherents\Form\Adherents\MinicvP2Form;
@@ -66,7 +67,22 @@ class AdherentsController extends AbstractActionController
                             'value' => $comp->getId(),
                         ];
                     }
-                break;
+                    break;
+                case 1:
+                    $comps =  $this->entityManager->getRepository(VcCompBis::class)
+                                ->findByMetier($value);
+
+                    foreach ($comps as $comp) {
+                        $data[] = [
+                            'name' => $comp->getNom(),
+                            'value' => $comp->getId(),
+                        ];
+                    }
+                    break;
+                default:
+                    return;
+                    break;
+
             }
 
             $view->setVariable('data', $data);

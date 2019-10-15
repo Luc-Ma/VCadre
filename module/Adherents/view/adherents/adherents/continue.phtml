@@ -38,6 +38,14 @@ switch ($step) {
         }
         break;
     case 4:
+        $elements = [];
+        for ($i = 0; $i < $selector; $i++) {
+            $elements[] = [
+                'name' => 'compbis'.$i,
+                'class' => 'selectpicker form-control compbis'
+            ];
+        }
+        break;
     case 5:
     case 6:
         $elements = [];
@@ -89,9 +97,11 @@ print_r($form->getMessages());
             <?php endforeach; ?>
         <?php elseif ($step == 3): ?>
             <?= $this->FormHelper()->renderMetier(); ?>
-            <div class="row mb-5">
-            </div>
+        <?php elseif ($step == 4): ?>
+            <?= $this->FormHelper()->renderMetier("compbis"); ?>
         <?php endif; ?>
+        <div class="row mb-5">
+        </div>
         <?= $this->formElement($form->get('submit')); ?>
         <?= $this->form()->closeTag(); ?>
     </div>

@@ -19,9 +19,10 @@ class MinicvP5Form extends Form
     /**
      * Constructor.
      */
-    public function __construct($entityManager)
+    public function __construct($entityManager, $config)
     {
         $this->entityManager = $entityManager;
+        $this->config = $config;
         // Define form name
         parent::__construct('minicvp5');
 
@@ -47,14 +48,16 @@ class MinicvP5Form extends Form
 
     protected function addElements()
     {
-        $this->add([
-            'type' => 'select',
-            'name' => 'compbis',
-            'options' => [
-                'label' => 'Selectionnez une compétence complémentaire : ',
-                'value_options' => $this->getArrayCompBis(),
-            ],
-        ]);
+        for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
+            $this->add([
+                'type' => 'select',
+                'name' => 'compbis'.$i,
+                'options' => [
+                    'label' => 'Selectionnez une compétence complémentaire : ',
+                    'value_options' => $this->getArrayCompBis(),
+                ],
+            ]);
+        }
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',
