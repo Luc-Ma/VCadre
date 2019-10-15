@@ -77,9 +77,11 @@ return [
     'view_helpers' => [
         'factories' => [
             Helper\AdminHelper::class => Helper\Factory\AdminHelperFactory::class,
+            Helper\MinicvFormHelper::class => Helper\Factory\MinicvFormHelperFactory::class,
         ],
         'aliases' => [
             'AdminRender' => Helper\AdminHelper::class,
+            'FormHelper' => Helper\MinicvFormHelper::class,
         ],
     ],
     'doctrine' => [
@@ -106,30 +108,8 @@ return [
             // not logged in users. Restrictive mode is more secure and recommended to use.
             'mode' => 'restrictive'
         ],
-        'controllers' => [ /*
-            Controller\AuthController::class => [
-                // this class is always allow
-            ],
-            Controller\MthController::class => [
-                // * = allow  @ = auth user only
-                ['actions' => ['index','view','dl'], 'allow' => '*'],
-            ],
-            Controller\StuffController::class => [
-                // * = allow  @ = auth user only
-                ['actions' => ['about', 'legal'], 'allow' => '*'],
-            ],
-            Controller\SearchController::class => [
-                // * = allow  @ = auth user only
-                ['actions' => ['search'], 'allow' => '*'],
-            ],
-            Controller\TricksController::class => [
-                // * = allow  @ = auth user only
-                ['actions' => ['index', 'add'], 'allow' => '@'],
-            ],
-            Controller\LevelController::class => [
-                // * = allow  @ = auth user only
-                ['actions' => ['new','editversion','editlvl','ajax','dashboard','newSMM','newSMW','newversion'], 'allow' => '@'],
-            ], */
+        'controllers' => [
+
         ]
     ],
     'Adherents' => [

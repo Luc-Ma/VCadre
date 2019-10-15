@@ -6,6 +6,8 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Adherents\Entity\User;
 use Adherents\Entity\VcMinicv;
+use Adherents\Entity\VcMetier;
+use Adherents\Entity\VcComp;
 use Adherents\Form\Adherents\UploadForm;
 use Adherents\Form\Adherents\MinicvP1Form;
 use Adherents\Form\Adherents\MinicvP2Form;
@@ -38,6 +40,42 @@ class AdherentsController extends AbstractActionController
         return [
             'user' => $curUser,
         ];
+    }
+
+    public function elementsAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $view = new JsonModel();
+            $view->setTerminal(true);
+            $type = $this->params()->fromPost('act', null);
+            $value = $this->params()->fromPost('value', null);
+
+            if ($type === null || $value === null) {
+                return false;
+            }
+            $data = [];
+            switch ($type) {
+                case 0:
+                    $comps =  $this->entityManager->getRepository(VcComp::class)
+                                ->findByMetier($value);
+
+                    foreach ($comps as $comp) {
+                        $data[] = [
+                            'name' => $comp->getNom(),
+                            'value' => $comp->getId(),
+                        ];
+                    }
+                break;
+            }
+
+            $view->setVariable('data', $data);
+            $view->setVariable('SUCCES', 'OK');
+
+            return $view;
+        } else {
+            return $this->redirect()->toRoute('home');
+        }
     }
 
     public function ajaxAction()
@@ -142,7 +180,7 @@ class AdherentsController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         $step = $minicv->getStep();
-
+        $selector = 0;
         switch ($step) {
             case 1:
                 $form = new MinicvP2Form();
@@ -151,16 +189,18 @@ class AdherentsController extends AbstractActionController
                 $form = new MinicvP3Form($this->entityManager);
                 break;
             case 3:
-                $form = new MinicvP4Form($this->entityManager);
+                $form = new MinicvP4Form($this->entityManager, $this->config);
+                $selector = $this->config['Adherents']['options']['competence'];
                 break;
             case 4:
-                $form = new MinicvP5Form($this->entityManager);
+                $form = new MinicvP5Form($this->entityManager, $this->config);
+                $selector = $this->config['Adherents']['options']['competenceBis'];
                 break;
             case 5:
-                $form = new MinicvP6Form($this->entityManager);
+                $form = new MinicvP6Form($this->entityManager, $this->config);
                 break;
             case 6:
-                $form = new MinicvP7Form($this->entityManager);
+                $form = new MinicvP7Form($this->entityManager, $this->config);
                 break;
             default:
                 return $this->redirect()->toRoute('home');
@@ -169,19 +209,20 @@ class AdherentsController extends AbstractActionController
 
         $request = $this->getRequest();
         if (!$request->isPost()) {
-            return ['form' => $form,'step'=> $step];
+            return ['form' => $form,'step'=> $step,'selector' => $selector];
         }
 
         $form->setData($request->getPost());
 
         if (!$form->isValid()) {
-            return ['form' => $form,'step'=> $step];
+            return ['form' => $form,'step'=> $step,'selector' => $selector];
         }
         $data = $form->getData();
         //print_r($data);
         $this->adherentsService->continueMinicv($id, $data, $step, $curUser);
         return $this->redirect()->toRoute('adherents', ['action' => 'continue','id' => $id]);
     }
+
 
     public function uploadAction()
     {

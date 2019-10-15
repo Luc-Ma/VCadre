@@ -15,13 +15,15 @@ class MinicvP4Form extends Form
      * @var Doctrine\ORM\EntityManager
      */
     private $entityManager = null;
+    private $config;
 
     /**
      * Constructor.
      */
-    public function __construct($entityManager)
+    public function __construct($entityManager, $config)
     {
         $this->entityManager = $entityManager;
+        $this->config = $config;
         // Define form name
         parent::__construct('minicvp4');
 
@@ -47,14 +49,16 @@ class MinicvP4Form extends Form
 
     protected function addElements()
     {
-        $this->add([
-            'type' => 'select',
-            'name' => 'comp',
-            'options' => [
-                'label' => 'Selectionnez une compétence : ',
-                'value_options' => $this->getArrayComp(),
-            ],
-        ]);
+        for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
+            $this->add([
+                'type' => 'select',
+                'name' => 'comp'.$i,
+                'options' => [
+                    'label' => 'Selectionnez une compétence : ',
+                    'value_options' => $this->getArrayComp(),
+                ],
+            ]);
+        }
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',

@@ -6,6 +6,8 @@ use Adherents\Entity\VcMinicv;
 use Adherents\Entity\VcApec;
 use Adherents\Entity\VcContrat;
 use Adherents\Entity\VcDispo;
+use Adherents\Entity\VcComp;
+use Adherents\Entity\VcCompBis;
 use Adherents\Entity\VcMobilite;
 use Doctrine\DBAL\Types\DateTimeType;
 
@@ -13,14 +15,16 @@ class AdherentsManager
 {
     private $entityManager;
     private $logManager;
+    private $config;
 
     /**
      * Constructs the service.
      */
-    public function __construct($entityManager, $logManager)
+    public function __construct($entityManager, $logManager, $config)
     {
         $this->entityManager = $entityManager;
         $this->logManager = $logManager;
+        $this->config = $config;
     }
 
     public function addMinicv($data, $user)
@@ -156,6 +160,15 @@ class AdherentsManager
                 $minicv->setMobiliteSource($source);
                 $minicv->setStep(3);
                 break;
+            case 3: //form 4
+                for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
+                    $comp = $this->entityManager->getRepository(VcComp::class)
+                                        ->findOneById($data['comp'.$i]);
+                    $minicv->addComp($comp);
+                }
+                $minicv->setStep(4);
+                break;
+                
             default:
                 return false;
                 break;
@@ -164,7 +177,7 @@ class AdherentsManager
         $this->entityManager->flush();
 
         $log = $user->getLastname()." ".$user->getFirstname();
-        $log .= " à complété l'étape ".$step." de son minicv ".$minicv->getIntitule();
+        $log .= " à complété l'étape ".($step +1)." de son minicv ".$minicv->getIntitule();
         $this->logManager->addLog($log);
 
         return true;

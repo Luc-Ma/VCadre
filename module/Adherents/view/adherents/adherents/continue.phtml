@@ -29,12 +29,18 @@ switch ($step) {
         ];
         break;
     case 3:
-        $elements = [
-            [
-                'name' => 'comp',
-                'class' => 'form-control multiselect',
-            ],
-        ];
+        $elements = [];
+        for ($i = 0; $i < $selector; $i++) {
+            $elements[] = [
+                'name' => 'comp'.$i,
+                'class' => 'selectpicker form-control comp'
+            ];
+        }
+        break;
+    case 4:
+    case 5:
+    case 6:
+        $elements = [];
         break;
     case 1:
     default:
@@ -61,7 +67,7 @@ foreach ($elements as $element) {
     ]);
 }
 $form->prepare();
-
+print_r($form->getMessages());
 ?>
 
 <div class="row justify-content-center">
@@ -72,14 +78,20 @@ $form->prepare();
 <div class="row mt-5">
     <div class="col">
         <?= $this->form()->openTag($form); ?>
-        <?php foreach ($elements as $element): ?>
-        <?php $add = isset($element['spe']) ? "hiddenCB" : ""; ?>
-        <div class="form-group <?= $add; ?>">
-            <?= $this->formLabel($form->get($element['name'])); ?>
-            <?= $this->formElement($form->get($element['name'])); ?>
-            <?= $this->formElementErrors($form->get($element['name'])); ?>
-        </div>
-    <?php endforeach; ?>
+        <?php if ($step < 3): ?>
+            <?php foreach ($elements as $element): ?>
+                <?php $add = isset($element['spe']) ? "hiddenCB" : ""; ?>
+                <div class="form-group <?= $add; ?>">
+                    <?= $this->formLabel($form->get($element['name'])); ?>
+                    <?= $this->formElement($form->get($element['name'])); ?>
+                    <?= $this->formElementErrors($form->get($element['name'])); ?>
+                </div>
+            <?php endforeach; ?>
+        <?php elseif ($step == 3): ?>
+            <?= $this->FormHelper()->renderMetier(); ?>
+            <div class="row mb-5">
+            </div>
+        <?php endif; ?>
         <?= $this->formElement($form->get('submit')); ?>
         <?= $this->form()->closeTag(); ?>
     </div>

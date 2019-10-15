@@ -3,17 +3,18 @@ namespace Adherents\Helper\Factory;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Adherents\Helper\AdminHelper;
+use Adherents\Helper\MinicvFormHelper;
 
 /**
- * This is the factory for admin view helper. Its purpose is to instantiate the
+ * This is the factory for MinicvForm view helper. Its purpose is to instantiate the
  * helper
  */
-class AdminHelperFactory implements FactoryInterface
+class MinicvFormHelperFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new AdminHelper($entityManager);
+        $config = $container->get('Config');
+        return new MinicvFormHelper($entityManager, $config);
     }
 }

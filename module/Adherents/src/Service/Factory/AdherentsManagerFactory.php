@@ -19,6 +19,7 @@ class AdherentsManagerFactory implements FactoryInterface
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $logManager = $container->get(LogManager::class);
-        return new AdherentsManager($entityManager, $logManager);
+        $config = $container->get('Config');
+        return new AdherentsManager($entityManager, $logManager, $config);
     }
 }

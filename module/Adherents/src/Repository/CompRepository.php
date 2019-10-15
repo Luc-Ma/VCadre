@@ -13,4 +13,17 @@ class CompRepository extends EntityRepository
     {
         return $this->findBy(array(), array('metier' => 'ASC'));
     }
+
+    public function findByMetier($metier)
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('c')
+            ->from(VcComp::class, 'c')
+            ->andWhere('c.metier = ?1')
+            ->setParameter('1', $metier);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
