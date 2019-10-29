@@ -146,22 +146,6 @@ class AdherentsController extends AbstractActionController
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adherentsService->delMinicv($id, $curUser);
                     break;
-                case '5': //delete compbis.s
-                    $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delCompBis($id);
-                    break;
-                case '6': //delete secteur.s
-                    $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delSecteur($id);
-                    break;
-                case '7': //delete savoir etre cat
-                    $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delSeCat($id);
-                    break;
-                case '8': //delete savoir etre
-                    $id = $this->params()->fromPost('id', null);
-                    $result = $this->adminService->delSe($id);
-                    break;
                 default:
                     $result = false;
                     break;

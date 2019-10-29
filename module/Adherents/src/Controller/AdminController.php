@@ -9,6 +9,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use Adherents\Entity\User;
 use Adherents\Entity\VcLog;
+use Adherents\Entity\VcMinicv;
 use Adherents\Form\Admin\ApecForm;
 use Adherents\Form\Admin\MetierForm;
 use Adherents\Form\Admin\CompForm;
@@ -128,6 +129,10 @@ class AdminController extends AbstractActionController
                 case '11': //delete dispo
                     $id = $this->params()->fromPost('id', null);
                     $result = $this->adminService->delMob($id);
+                    break;
+                case '12': //change minicv state
+                    $id = $this->params()->fromPost('id', null);
+                    $result = $this->adminService->changeMinicvValid($id);
                     break;
                 default:
                     $result = false;
@@ -408,5 +413,12 @@ class AdminController extends AbstractActionController
         $this->adminService->addMob($data);
 
         return $this->redirect()->toRoute('admin', ['action' => 'mob']);
+    }
+
+    public function mcvAction()
+    {
+        $minicvs = $this->entityManager->getRepository(VcMinicv::class)
+                            ->findToValidate();
+        return ['minicvs' => $minicvs];
     }
 }

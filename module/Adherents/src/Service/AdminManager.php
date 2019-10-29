@@ -12,6 +12,7 @@ use Adherents\Entity\VcSavoiretreList;
 use Adherents\Entity\VcContrat;
 use Adherents\Entity\VcDispo;
 use Adherents\Entity\VcMobilite;
+use Adherents\Entity\VcMinicv;
 
 class AdminManager
 {
@@ -27,6 +28,32 @@ class AdminManager
         $this->entityManager = $entityManager;
         $this->logManager = $logManager;
         $this->authService = $authService;
+    }
+
+    public function changeMinicvValid($id)
+    {
+        $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                            ->findOneById($id);
+
+        if ($minicv === null) {
+            return false;
+        }
+
+        $state = $minicv->getValid();
+
+        if ($state == VcMinicv::PROFIL_IS_VALID) {
+            $minicv->setValid(VcMinicv::PROFIL_INVALID);
+        } else {
+            $minicv->setValid(VcMinicv::PROFIL_IS_VALID);
+        }
+
+        $this->entityManager->persist($minicv);
+        $this->entityManager->flush();
+
+        $log = $minicv->getUser()->getLastname()." ".$minicv->getUser()->getFirstname()." A son profil ";
+        $log .= $state == VcMinicv::PROFIL_IS_VALID ? "Invalidé" : "Validé";
+        $this->logManager->addLog($log);
+        return true;
     }
 
     public function addAdmin($userId)

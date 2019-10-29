@@ -18,7 +18,7 @@ use Adherents\Entity\VcContrat;
  * VcMinicv
  *
  * @ORM\Table(name="vc_minicv", indexes={@ORM\Index(name="link_apec", columns={"apec"}), @ORM\Index(name="link_mobilite", columns={"mobilite"}), @ORM\Index(name="link_dispo", columns={"dispo"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Adherents\Repository\MinicvRepository")
  */
 class VcMinicv
 {
