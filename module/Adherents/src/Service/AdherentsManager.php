@@ -199,10 +199,10 @@ class AdherentsManager
                 for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
                     $se = $this->entityManager->getRepository(VcSavoiretreList::class)
                                         ->findOneById($data['se'.$i]);
-                    if ($secteur === null) {
+                    if ($se === null) {
                         continue;
                     }
-                    $minicv->addSecteur($se);
+                    $minicv->addSavoirEtre($se);
                 }
                 $minicv->setStep(7);
                 $minicv->setComplet(VcMinicv::PROFIL_IS_COMPLETE);

@@ -10,29 +10,61 @@ $this->headLink()->appendStylesheet($this->basePath('css/adherents/upload.css'))
         <?= $title; ?>
     </h1>
 </div>
-<div class="row mb-5">
-    <?php foreach ($minicvs as $minicv):
-        if ($minicv->getValid()) {
-            $mcvPriv = "";
-            $mcvPub = "checked";
-        } else {
-            $mcvPriv = "checked";
-            $mcvPub = "";
-        }
-        ?>
-        <div class="col">
-             <a href="<?= $this->url('adherents', ['action' => 'view','id' => $minicv->getId()])?>">Voir <?= $minicv->getIntitule() ?></a>
-        </div>
-        <div class="col">
-            <span class="group">
-            <input type="radio" class="change" name="state<?= $minicv->getId(); ?>" id="u<?= $minicv->getId(); ?>" <?= $mcvPriv; ?>>
-            <label for="u<?= $minicv->getId(); ?>">En attente</label>
-            <input type="radio" class="change" name="state<?= $minicv->getId(); ?>" id="p<?= $minicv->getId(); ?>" <?= $mcvPub; ?>>
-            <label for="p<?= $minicv->getId(); ?>">Valide</label>
-            </span>
-        </div>
-    <?php endforeach; ?>
+<?php foreach ($invalids as $invalid): ?>
+    <div class="row mb-5">
+        <?php
+            if ($invalid->getValid()) {
+                $mcvPriv = "";
+                $mcvPub = "checked";
+            } else {
+                $mcvPriv = "checked";
+                $mcvPub = "";
+            }
+            ?>
+            <div class="col">
+                 <a href="<?= $this->url('adherents', ['action' => 'view','id' => $invalid->getId()])?>">Voir <?= $invalid->getIntitule() ?></a>
+                 de <?= $invalid->getUser()->getFirstname()." ".$invalid->getUser()->getLastname(); ?>
+            </div>
+            <div class="col">
+                <span class="group">
+                <input type="radio" class="change" name="state<?= $invalid->getId(); ?>" id="u<?= $invalid->getId(); ?>" <?= $mcvPriv; ?>>
+                <label for="u<?= $invalid->getId(); ?>">En attente</label>
+                <input type="radio" class="change" name="state<?= $invalid->getId(); ?>" id="p<?= $invalid->getId(); ?>" <?= $mcvPub; ?>>
+                <label for="p<?= $invalid->getId(); ?>">Valide</label>
+                </span>
+            </div>
+    </div>
+<?php endforeach; ?>
+<div class="row mb-5 justify-content-center">
+    <h1 class="mt-4 mb-5">
+        Cv Validés
+    </h1>
 </div>
+<?php foreach ($valids as $valid): ?>
+    <div class="row mb-5">
+        <?php
+            if ($valid->getValid()) {
+                $mcvPriv = "";
+                $mcvPub = "checked";
+            } else {
+                $mcvPriv = "checked";
+                $mcvPub = "";
+            }
+            ?>
+            <div class="col">
+                 <a href="<?= $this->url('adherents', ['action' => 'view','id' => $valid->getId()])?>">Voir <?= $valid->getIntitule() ?></a>
+                 de <?= $valid->getUser()->getFirstname()." ".$valid->getUser()->getLastname(); ?>
+            </div>
+            <div class="col">
+                <span class="group">
+                <input type="radio" class="change" name="state<?= $valid->getId(); ?>" id="u<?= $valid->getId(); ?>" <?= $mcvPriv; ?>>
+                <label for="u<?= $valid->getId(); ?>">En attente</label>
+                <input type="radio" class="change" name="state<?= $valid->getId(); ?>" id="p<?= $valid->getId(); ?>" <?= $mcvPub; ?>>
+                <label for="p<?= $valid->getId(); ?>">Valide</label>
+                </span>
+            </div>
+    </div>
+<?php endforeach; ?>
 <?php
 $this->inlineScript()->appendFile($this->basePath('js/admin/mcv.js'));
  ?>

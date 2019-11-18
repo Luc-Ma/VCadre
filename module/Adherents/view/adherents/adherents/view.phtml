@@ -1,0 +1,85 @@
+<?php
+$title = 'Mini cv';
+
+$this->headTitle($title);
+
+?>
+<div class="row justify-content-center">
+    <h1 class="mt-4 mb-5">
+        Votre Minicv <?=$minicv->getIntitule() ?>
+    </h1>
+</div>
+<div class="row">
+    <div< class="row">
+    <?= $minicv->getApec()->getIntitule(); ?>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Savoir-être :</p>
+                <?php foreach ($minicv->getSavoirEtre() as $se): ?>
+                    <li><?= $se->getNom(); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Compétence :</p>
+                <?php foreach ($minicv->getComp() as $comp): ?>
+                    <li><?= $comp->getNom(); ?></li>
+                <?php endforeach; ?>
+                <?php foreach ($minicv->getCompBis() as $comp): ?>
+                    <li><?= $comp->getNom(); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Secteurs ciblés :</p>
+                <?php foreach ($minicv->getSecteur() as $secteur): ?>
+                    <li><?= $secteur->getNom(); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Formations : </p>
+                <li><?= nl2br($this->escapeHtml($minicv->getFormation())); ?></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Disponibilité :</p>
+                <li><?= $minicv->getDispo()->getDispo(); ?></li>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Mobilité : </p>
+                <li><?= $minicv->getMobilite()->getMobilite(); ?></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Expérience du poste :</p>
+                <li><?= $this->escapeHtml($minicv->getExperiencePoste()); ?></li>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold">Expérience totale: </p>
+                <li><?= $this->escapeHtml($minicv->getExperienceTotal()) ?></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php
+$this->inlineScript()->appendFile($this->basePath('js/adherents/upload.js'));
+ ?>

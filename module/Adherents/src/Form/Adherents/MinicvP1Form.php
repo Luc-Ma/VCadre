@@ -53,7 +53,7 @@ class MinicvP1Form extends Form
             'type' => 'select',
             'name' => 'apec',
             'options' => [
-                'label' => 'Selectionnez un Apec : ',
+                'label' => 'Selectionnez une catégorie apec : ',
                 'value_options' => $this->getArrayApec(),
             ],
         ]);

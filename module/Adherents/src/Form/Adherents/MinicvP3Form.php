@@ -82,7 +82,7 @@ class MinicvP3Form extends Form
             'type' => 'MultiCheckbox',
             'name' => 'contrat',
             'options' => [
-                'label' => 'Contrat : ',
+                'label' => 'Selectionnez un type de contrat (plusieur choix possible)  : ',
                 'value_options' => $this->getArrayContrat()
             ],
         ]);
@@ -109,7 +109,8 @@ class MinicvP3Form extends Form
             'type'  => 'text',
             'name' => 'source',
             'options' => [
-                'label' => 'Votre location :  ',
+                'label' => 'Votre localisation :  ',
+                'placeholder' => 'votre ville ou grande ville la plus proche',
             ],
         ]);
         $this->add([

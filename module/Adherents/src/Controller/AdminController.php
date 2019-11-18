@@ -417,8 +417,10 @@ class AdminController extends AbstractActionController
 
     public function mcvAction()
     {
-        $minicvs = $this->entityManager->getRepository(VcMinicv::class)
+        $invalids = $this->entityManager->getRepository(VcMinicv::class)
                             ->findToValidate();
-        return ['minicvs' => $minicvs];
+        $valids = $this->entityManager->getRepository(VcMinicv::class)
+                            ->findValidated();
+        return ['invalids' => $invalids,'valids' => $valids];
     }
 }

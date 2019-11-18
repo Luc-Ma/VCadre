@@ -45,6 +45,28 @@ class AdherentsController extends AbstractActionController
         ];
     }
 
+    public function viewAction()
+    {
+        $id = $this->params()->fromRoute('id', null);
+
+        //test if id exist
+        $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                    ->findOneById($id);
+        if ($minicv === null) {
+            return $this->redirect()->toRoute('home');
+        }
+        //check permission
+        $curUser = $this->entityManager->getRepository(User::class)
+                    ->findOneByUsername($this->authService->getIdentity());
+
+        if ($curUser->getAdminStatus() || $minicv->getUser()->getId() == $curUser->getId()) {
+            return ["minicv" => $minicv];
+        } else {
+            // you're not admin and this is not your minicv
+            return $this->redirect()->toRoute('home');
+        }
+    }
+
     public function elementsAction()
     {
         $request = $this->getRequest();
@@ -205,25 +227,32 @@ class AdherentsController extends AbstractActionController
         }
         $step = $minicv->getStep();
         $selector = 0;
+        $subtitle = "";
         switch ($step) {
             case 1:
+                $subtitle = "Expérience et formation";
                 $form = new MinicvP2Form();
                 break;
             case 2:
+                $subtitle = "Contrat et disponibilité";
                 $form = new MinicvP3Form($this->entityManager);
                 break;
             case 3:
+                $subtitle = "Vos compétences principales";
                 $form = new MinicvP4Form($this->entityManager, $this->config);
                 $selector = $this->config['Adherents']['options']['competence'];
                 break;
             case 4:
+                $subtitle = "Vos compétences secondaires";
                 $form = new MinicvP5Form($this->entityManager, $this->config);
                 $selector = $this->config['Adherents']['options']['competenceBis'];
                 break;
             case 5:
+                $subtitle = "Vos secteurs cible";
                 $form = new MinicvP6Form($this->entityManager, $this->config);
                 break;
             case 6:
+                $subtitle = "Vos savoirs-être";
                 $form = new MinicvP7Form($this->entityManager, $this->config);
                 break;
             default:
@@ -233,13 +262,13 @@ class AdherentsController extends AbstractActionController
 
         $request = $this->getRequest();
         if (!$request->isPost()) {
-            return ['form' => $form,'step'=> $step,'selector' => $selector];
+            return ['form' => $form,'step'=> $step,'selector' => $selector,'subtitle' => $subtitle];
         }
 
         $form->setData($request->getPost());
 
         if (!$form->isValid()) {
-            return ['form' => $form,'step'=> $step,'selector' => $selector];
+            return ['form' => $form,'step'=> $step,'selector' => $selector,'subtitle' => $subtitle];
         }
         $data = $form->getData();
         //print_r($data);
