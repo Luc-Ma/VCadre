@@ -2,6 +2,8 @@
 $title = 'panel admin';
 
 $this->headTitle($title);
+$this->headScript()->appendFile($this->basePath('js/Chart.bundle.min.js'));
+$this->headLink()->appendStylesheet($this->basePath('css/Chart.min.css'));
 ?>
 
 <div class="row">
@@ -106,3 +108,54 @@ $this->headTitle($title);
         </div>
     </div>
 </div>
+<canvas id="myChart" width="200" height="200"></canvas>
+<?php
+$intitule  = [];
+$value = [];
+foreach ($apec as $a) {
+    if ($a->getMinicv()->count() > 0) {
+        $intitule[] = $a->getIntitule();
+        $value[] = $a->getMinicv()->count();
+    }
+}
+print_r($intitule);
+print_r($value);
+?>
+<script>
+
+var config = {
+    type: 'pie',
+    data: {
+        datasets: [{
+            data: [
+                <?php
+                foreach ($value as $val) {
+                    echo $val.",";
+                }
+                ?>
+            ],
+            backgroundColor: [
+                'red',
+                'orange',
+                'yellow',
+                'green',
+                'blue',
+            ],
+        }],
+        labels: [
+            <?php
+            foreach ($intitule as $name) {
+                echo "'".$name."',";
+            }
+            ?>
+        ]
+    },
+    options: {
+        responsive: true
+    }
+};
+var ctx = document.getElementById('myChart').getContext('2d');
+var myPieChart = new Chart(ctx,config);
+
+
+</script>

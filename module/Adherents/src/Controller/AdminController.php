@@ -9,6 +9,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use Adherents\Entity\User;
 use Adherents\Entity\VcLog;
+use Adherents\Entity\VcApec;
 use Adherents\Entity\VcMinicv;
 use Adherents\Form\Admin\ApecForm;
 use Adherents\Form\Admin\MetierForm;
@@ -155,6 +156,9 @@ class AdminController extends AbstractActionController
         if (!self::checkAccess()) {
             return $this->redirect()->toRoute('home');
         }
+        //just for the graph
+        $apec = $this->entityManager->getRepository(VcApec::class)->findAll();
+        return ['apec' => $apec];
     }
 
     public function apecAction()
