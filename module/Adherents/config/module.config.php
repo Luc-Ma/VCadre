@@ -117,7 +117,7 @@ return [
             'competence' => 3,
             'competenceBis' => 3,
             'secteur' => 3,
-            'savoiretre' => 3,
+            'savoiretre' => 5,
         ]
     ],
 ];
