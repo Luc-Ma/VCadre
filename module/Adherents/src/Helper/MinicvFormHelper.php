@@ -90,13 +90,13 @@ class MinicvFormHelper extends AbstractHelper
         for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
             $data .= '<div class="col-6 col-sm-4 my-3">';
             $data .= "Selectionnez une catégorie : ";
-            $data .= '<select id='.$i.' class="selectpicker mse">';
+            $data .= '<select id='.$i.' class="selectpicker mse mb-1">';
             $data .= '<option selected disable value="0">catégories</option>';
             $data .= $value;
             $data .= '</select><br />';
             $data .= 'Selectionnez un savoir-être ';
             $data .= 'associé : <br />';
-            $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre mt-1">';
+            $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre">';
             $data .= '</select>';
             $data .= '</div>';
             if($split && $i > 1) {
