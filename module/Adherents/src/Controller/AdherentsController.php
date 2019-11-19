@@ -234,7 +234,7 @@ class AdherentsController extends AbstractActionController
                 $form = new MinicvP2Form();
                 break;
             case 2:
-                $subtitle = "Contrat et disponibilité";
+                $subtitle = "Contrat - disponibilité - mobilité";
                 $form = new MinicvP3Form($this->entityManager);
                 break;
             case 3:
