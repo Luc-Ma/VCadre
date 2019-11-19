@@ -248,7 +248,7 @@ class AdherentsController extends AbstractActionController
                 $selector = $this->config['Adherents']['options']['competenceBis'];
                 break;
             case 5:
-                $subtitle = "Vos secteurs cibles";
+                $subtitle = "Vos secteurs ciblés";
                 $form = new MinicvP6Form($this->entityManager, $this->config);
                 break;
             case 6:
