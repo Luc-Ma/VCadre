@@ -86,7 +86,7 @@ class MinicvFormHelper extends AbstractHelper
             $value .= '<option value="'.$se->getId().'">'.$se->getNom().'</option>';
         }
         $data = '<div class="row">';
-
+        $split = true;
         for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
             $data .= '<div class="col">';
             $data .= "Selectionnez une catégorie : ";
@@ -99,6 +99,11 @@ class MinicvFormHelper extends AbstractHelper
             $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre">';
             $data .= '</select>';
             $data .= '</div>';
+            if($split && $i > 2) {
+                    $date .= "<div class=\"col\"></div>";
+                    $split = false;
+            }
+
         }
         $data .= '</div>';
         return $data;
