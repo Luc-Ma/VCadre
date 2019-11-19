@@ -100,7 +100,7 @@ class MinicvFormHelper extends AbstractHelper
             $data .= '</select>';
             $data .= '</div>';
             if($split && $i > 2) {
-                    $data .= "<div class=\"col\"></div>";
+                    $data .= "<div class=\"w-100\"></div>";
                     $split = false;
             }
 
