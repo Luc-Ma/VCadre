@@ -31,9 +31,8 @@ class MinicvP2Form extends Form
         $this->add([
             'type'  => 'text',
             'name' => 'xp',
-            'placeholder' => '30 ans',
             'options' => [
-                'label' => 'Expérience du poste :  ',
+                'label' => 'Expérience du poste (en mois ou année) :  ',
                 'placeholder' => '30 ans',
             ],
         ]);
@@ -42,7 +41,7 @@ class MinicvP2Form extends Form
             'type'  => 'text',
             'name' => 'xptot',
             'options' => [
-                'label' => 'Expérience totale :  ',
+                'label' => 'Expérience totale (en mois ou année) :  ',
             ],
         ]);
         // description
