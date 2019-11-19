@@ -56,10 +56,12 @@ switch ($step) {
             [
                 'name' => 'xp',
                 'class' => 'form-control'
+                'placeholder' => '6 mois'
             ],
             [
                 'name' => 'xptot',
                 'class' => 'form-control'
+                'placeholder' => '10 ans'
             ],
             [
                 'name' => 'formation',
@@ -70,6 +72,11 @@ switch ($step) {
 }
 
 foreach ($elements as $element) {
+        if(issset($element['placeholder'])) {
+                $form->get($element['name'])->setAttributes([
+                    'placeholder' => $element['placeholder'],
+                ]);
+        }
     $form->get($element['name'])->setAttributes([
         'class' => $element['class'],
     ]);
