@@ -72,7 +72,7 @@ switch ($step) {
 }
 
 foreach ($elements as $element) {
-        if(issset($element['placeholder'])) {
+        if(isset($element['placeholder'])) {
                 $form->get($element['name'])->setAttributes([
                     'placeholder' => $element['placeholder'],
                 ]);
