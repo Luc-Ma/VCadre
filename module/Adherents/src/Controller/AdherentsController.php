@@ -238,7 +238,7 @@ class AdherentsController extends AbstractActionController
                 $form = new MinicvP3Form($this->entityManager);
                 break;
             case 3:
-                $subtitle = "Vos compétences principales";
+                $subtitle = "Vos compétences de base";
                 $form = new MinicvP4Form($this->entityManager, $this->config);
                 $selector = $this->config['Adherents']['options']['competence'];
                 break;
@@ -248,11 +248,11 @@ class AdherentsController extends AbstractActionController
                 $selector = $this->config['Adherents']['options']['competenceBis'];
                 break;
             case 5:
-                $subtitle = "Vos secteurs cible";
+                $subtitle = "Vos secteurs cibles";
                 $form = new MinicvP6Form($this->entityManager, $this->config);
                 break;
             case 6:
-                $subtitle = "Vos savoirs-être";
+                $subtitle = "Vos savoir-être";
                 $form = new MinicvP7Form($this->entityManager, $this->config);
                 break;
             default:
