@@ -99,7 +99,7 @@ class MinicvFormHelper extends AbstractHelper
             $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre">';
             $data .= '</select>';
             $data .= '</div>';
-            if($split && $i > 2) {
+            if($split && $i > 1) {
                     $data .= "<div class=\"w-100\"></div>";
                     $split = false;
             }
