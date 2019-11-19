@@ -94,9 +94,9 @@ class MinicvFormHelper extends AbstractHelper
             $data .= '<option selected disable value="0">catégories</option>';
             $data .= $value;
             $data .= '</select><br />';
-            $data .= 'Selectionnez un savoir être ';
-            $data .= 'associée : <br />';
-            $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre">';
+            $data .= 'Selectionnez un savoir-être ';
+            $data .= 'associé : <br />';
+            $data .= '<select name="se'.$i.'" id="c'.$i.'" class="selectpicker savoiretre mt-1">';
             $data .= '</select>';
             $data .= '</div>';
             if($split && $i > 1) {
