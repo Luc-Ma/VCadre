@@ -25,10 +25,11 @@ return [
             'adherents' => [
                 'type'   => Segment::class,
                 'options' => [
-                    'route' => '/adherents[/:action][/:id]',
+                    'route' => '/adherents[/:action][/:id][/:part]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]*',
+                        'part' => '[0-9]*',
                     ],
                     'defaults' => [
                             'controller' => Controller\AdherentsController::class,

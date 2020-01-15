@@ -45,6 +45,32 @@ class AdherentsController extends AbstractActionController
         ];
     }
 
+    public function editActiont()
+    {
+        $id = $this->params()->fromRoute('id', null);
+        $part =  $this->params()->fromRoute('part', null);
+
+        //test if id exist
+        $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                    ->findOneById($id);
+        if ($minicv === null) {
+            return $this->redirect()->toRoute('home');
+        }
+        //check permission
+        $curUser = $this->entityManager->getRepository(User::class)
+                    ->findOneByUsername($this->authService->getIdentity());
+
+        if ($curUser->getAdminStatus() || $minicv->getUser()->getId() == $curUser->getId()) {
+
+            //insert edit code
+            return "ok";
+
+        } else {
+            // you're not admin and this is not your minicv
+            return $this->redirect()->toRoute('home');
+        }
+
+    }
     public function viewAction()
     {
         $id = $this->params()->fromRoute('id', null);
