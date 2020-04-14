@@ -34,7 +34,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Compétence :
+                    Compétences :
                 </p>
                 <?php foreach ($minicv->getComp() as $comp): ?>
                     <li><?= $comp->getNom(); ?></li>
