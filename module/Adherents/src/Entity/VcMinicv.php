@@ -98,6 +98,7 @@ class VcMinicv
      *
      * @ORM\Column(name="complet", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
+     private $complet;
 
     /**
     * @var string|null
@@ -106,7 +107,6 @@ class VcMinicv
     */
     private $infosComp;
 
-    private $complet;
 
     /**
      * @var int
