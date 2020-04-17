@@ -8,7 +8,7 @@ use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
 use Adherents\Entity\VcSavoiretreList;
 
-class MinicvP7Form extends Form
+class MinicvP8Form extends Form
 {
     /**
      * Entity manager.
@@ -25,7 +25,7 @@ class MinicvP7Form extends Form
         $this->entityManager = $entityManager;
         $this->config = $config;
         // Define form name
-        parent::__construct('minicvp7');
+        parent::__construct('minicvp8');
 
         // Set POST method for this form
         $this->setAttribute('method', 'post');
@@ -34,36 +34,22 @@ class MinicvP7Form extends Form
         $this->addInputFilter();
     }
 
-    private function getArraySe()
-    {
-        $myses = [];
-
-        $ses = $this->entityManager->getRepository(VcSavoiretreList::class)->findAll();
-
-        foreach ($ses as $se) {
-            $myses[$se->getId()] = $se->getNom();
-        }
-
-        return $myses;
-    }
-
     protected function addElements()
     {
-        for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
-            $this->add([
-                'type' => 'select',
-                'name' => 'se'.$i,
-                'options' => [
-                    'label' => 'Selectionnez un savoiretre : ',
-                    'value_options' => $this->getArraySe(),
-                ],
-            ]);
-        }
+        //  intitulé
+        $this->add([
+            'type'  => 'textarea',
+            'name' => 'infos',
+            'options' => [
+                'label' => 'Informations complétentaires :  ',
+            ],
+        ]);
+
         $this->add([
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Suivant',
+                'value' => 'Enregistrer',
                 'id' => 'submit',
             ],
         ]);

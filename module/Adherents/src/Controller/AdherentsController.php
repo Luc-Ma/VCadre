@@ -19,6 +19,7 @@ use Adherents\Form\Adherents\MinicvP4Form;
 use Adherents\Form\Adherents\MinicvP5Form;
 use Adherents\Form\Adherents\MinicvP6Form;
 use Adherents\Form\Adherents\MinicvP7Form;
+use Adherents\Form\Adherents\MinicvP8Form;
 
 class AdherentsController extends AbstractActionController
 {
@@ -281,6 +282,10 @@ class AdherentsController extends AbstractActionController
                 $subtitle = "Vos savoir-être";
                 $form = new MinicvP7Form($this->entityManager, $this->config);
                 break;
+            case 7:
+                $subtitle = "Informations Complémentaires";
+                $form = new MinicvP8Form($this->entityManager, $this->config);
+                break;
             default:
                 return $this->redirect()->toRoute('home');
                 break;
@@ -297,7 +302,7 @@ class AdherentsController extends AbstractActionController
             return ['form' => $form,'step'=> $step,'selector' => $selector,'subtitle' => $subtitle];
         }
         $data = $form->getData();
-        //print_r($data);
+        print_r($data);
         $this->adherentsService->continueMinicv($id, $data, $step, $curUser);
         return $this->redirect()->toRoute('adherents', ['action' => 'continue','id' => $id]);
     }

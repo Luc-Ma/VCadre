@@ -98,6 +98,14 @@ class VcMinicv
      *
      * @ORM\Column(name="complet", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
+
+    /**
+    * @var string|null
+    *
+    * @ORM\Column(name="infos", type="string",  precision=0, scale=0, nullable=true, unique=false)
+    */
+    private $infosComp;
+
     private $complet;
 
     /**
@@ -497,6 +505,30 @@ class VcMinicv
         }
 
         return 'Unknown';
+    }
+
+    /**
+    * Set info complementaire.
+    *
+    * @param string|null $infosComp
+    *
+    * @return VcMinicv
+    */
+    public function setInfosComp($infosComp = null)
+    {
+        $this->infosComp = $infosComp;
+
+        return $this;
+    }
+
+    /**
+     * Get infos comp.
+     *
+     * @return string
+     */
+    public function getInfosComp()
+    {
+        return $this->infosComp;
     }
 
     /**

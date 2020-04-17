@@ -1,5 +1,5 @@
 <?php
-$title = 'Créer un mini cv étape '.($step +1).' sur 7 ' ;
+$title = 'Créer un mini cv étape '.($step +1).' sur 8 ' ;
 
 $this->headTitle($title);
 $this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
@@ -51,6 +51,15 @@ switch ($step) {
     case 6:
         $elements = [];
         break;
+    case 7:
+        $elements = [
+            [
+                'name' => 'infos',
+                'class' => 'form-control',
+                'placeholder' => 'Informations que vous souhaitez ajouter (facultatif)'
+            ],
+        ];
+        break;
     case 1:
     default:
         $elements = [
@@ -95,7 +104,7 @@ $form->prepare();
 <div class="row mt-5">
     <div class="col">
         <?= $this->form()->openTag($form); ?>
-        <?php if ($step < 3): ?>
+        <?php if ($step < 3 || $step == 7): ?>
             <?php foreach ($elements as $element): ?>
                 <?php $add = isset($element['spe']) ? "hiddenCB" : ""; ?>
                 <div class="form-group <?= $add; ?>">

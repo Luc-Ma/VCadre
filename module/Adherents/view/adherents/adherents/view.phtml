@@ -120,6 +120,19 @@ $this->headTitle($title);
             </ul>
         </div>
     </div>
+    <div class="row mt-5">
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold text-success">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "8"])?>">
+                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
+                    </a>
+                    Informations complémentaires:
+                </p>
+                <li><?= $this->escapeHtml($minicv->getInfosComp()) ?></li>
+            </ul>
+        </div>
+    </div>
 </div>
 <?php
 $this->inlineScript()->appendFile($this->basePath('js/adherents/upload.js'));

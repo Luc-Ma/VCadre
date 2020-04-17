@@ -205,6 +205,10 @@ class AdherentsManager
                     $minicv->addSavoirEtre($se);
                 }
                 $minicv->setStep(7);
+                break;
+            case 7: // form 7
+                $minicv->setInfosComp($data['infos']);
+                $minicv->setStep(8);
                 $minicv->setComplet(VcMinicv::PROFIL_IS_COMPLETE);
                 break;
             default:
