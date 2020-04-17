@@ -21,9 +21,10 @@ class MinicvP3Form extends Form
     /**
      * Constructor.
      */
-    public function __construct($entityManager)
+    public function __construct($entityManager,$edit=false)
     {
         $this->entityManager = $entityManager;
+        $this->edit = $edit;
         // Define form name
         parent::__construct('minicvp3');
 
@@ -76,7 +77,7 @@ class MinicvP3Form extends Form
 
     protected function addElements()
     {
-
+        $submitvalue = $this->edit ? "Enregistrer" : "Suivant";
         //contrat
         $this->add([
             'type' => 'MultiCheckbox',
@@ -117,7 +118,7 @@ class MinicvP3Form extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Suivant',
+                'value' => $submitvalue,
                 'id' => 'submit',
             ],
         ]);

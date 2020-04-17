@@ -129,7 +129,110 @@ class AdherentsManager
 
         return true;
     }
+    public function updateMinicv($id,$data,$part,$user)
+    {
+        $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                            ->findOneById($id);
+        if($minicv === NULL)
+            return;
 
+        switch ($part) {
+            case 1:
+                $minicv->setExperiencePoste($data['xp']);
+                $minicv->setExperienceTotal($data['xptot']);
+                $minicv->setFormation($data['formation']);
+                break;
+            case 2:
+                foreach($minicv->getContrat() as $contrat) {
+                    $contrat->removeMinicv($minicv);
+                }
+                foreach ($data['contrat'] as $cID) {
+                    $contrat = $this->entityManager->getRepository(VcContrat::class)
+                                        ->findOneById($cID);
+                    $minicv->addContrat($contrat);
+                }
+                $dispo = $this->entityManager->getRepository(VcDispo::class)
+                                    ->findOneById($data['dispo']);
+                $mob = $this->entityManager->getRepository(VcMobilite::class)
+                                    ->findOneById($data['mob']);
+                $source = $data['source'];
+
+                $minicv->setDispo($dispo);
+                $minicv->setMobilite($mob);
+                $minicv->setMobiliteSource($source);
+                break;
+            case 3:
+                foreach($minicv->getComp() as $comp) {
+                    $comp->removeMinicv($minicv);
+                }
+                for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
+                    $comp = $this->entityManager->getRepository(VcComp::class)
+                                        ->findOneById($data['comp'.$i]);
+                    if ($comp === null) {
+                        continue;
+                    }
+                    $minicv->addComp($comp);
+                }
+                break;
+            case 4:
+                foreach($minicv->getCompBis() as $compbis) {
+                    $compbis->removeMinicv($minicv);
+                }
+                for ($i = 0; $i < $this->config['Adherents']['options']['competenceBis']; $i++) {
+                    $comp = $this->entityManager->getRepository(VcCompBis::class)
+                                        ->findOneById($data['compbis'.$i]);
+                    if ($comp === null) {
+                        continue;
+                    }
+                    $minicv->addCompBis($comp);
+                }
+                break;
+            case 5:
+                foreach($minicv->getSecteur() as $secteur) {
+                    $secteur->removeMinicv($minicv);
+                }
+                for ($i = 0; $i < $this->config['Adherents']['options']['secteur']; $i++) {
+                    $secteur = $this->entityManager->getRepository(VcSecteur::class)
+                                        ->findOneById($data['secteur'.$i]);
+                    if ($secteur === null) {
+                        continue;
+                    }
+                    $minicv->addSecteur($secteur);
+                }
+                break;
+            case 6:
+                foreach($minicv->getSavoirEtre() as $se) {
+                    $se->removeMinicv($minicv);
+                }
+                for ($i = 0; $i < $this->config['Adherents']['options']['savoiretre']; $i++) {
+                    $se = $this->entityManager->getRepository(VcSavoiretreList::class)
+                                        ->findOneById($data['se'.$i]);
+                    if ($se === null) {
+                        continue;
+                    }
+                    $minicv->addSavoirEtre($se);
+                }
+                break;
+            case 7:
+                $minicv->setInfosComp($data['infos']);
+                break;
+            default:
+                return;
+                break;
+        }
+        $minicv->setValid(VcMinicv::PROFIL_INVALID);
+        $minicv->setPublish(VcMinicv::PROFIL_IS_PRIVATE);
+
+        $this->entityManager->persist($minicv);
+        $this->entityManager->flush();
+
+        $log = $user->getLastname()." ".$user->getFirstname();
+        $log .= " à modifié son minicv ".$minicv->getIntitule();
+        $this->logManager->addLog($log);
+
+        return true;
+
+    }
     public function continueMinicv($id, $data, $step, $user)
     {
         $minicv = $this->entityManager->getRepository(VcMinicv::class)

@@ -12,7 +12,7 @@ class MinicvP2Form extends Form
     /**
      * Constructor.
      */
-    public function __construct()
+    public function __construct($edit=false)
     {
 
         // Define form name
@@ -20,13 +20,14 @@ class MinicvP2Form extends Form
 
         // Set POST method for this form
         $this->setAttribute('method', 'post');
-
+        $this->edit = $edit;
         $this->addElements();
         $this->addInputFilter();
     }
 
     protected function addElements()
     {
+        $submitvalue = $this->edit ? "Enregistrer" : "Suivant";
         //  exp
         $this->add([
             'type'  => 'text',
@@ -56,7 +57,7 @@ class MinicvP2Form extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Suivant',
+                'value' => $submitvalue,
                 'id' => 'submit',
             ],
         ]);

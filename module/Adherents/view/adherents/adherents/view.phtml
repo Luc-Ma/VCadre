@@ -18,7 +18,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "6"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Savoir-être :
@@ -31,10 +31,10 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "3"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Compétences :
+                    Compétences principale et <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>"><img src="/img/edit.svg" alt="edit" width=25 height=25 /></a>competence secondaire :
                 </p>
                 <?php foreach ($minicv->getComp() as $comp): ?>
                     <li><?= $comp->getNom(); ?></li>
@@ -49,7 +49,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "3"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "5"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Secteurs ciblés :
@@ -62,7 +62,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Formations :
@@ -75,7 +75,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Disponibilité :
@@ -86,7 +86,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "5"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Mobilité :
@@ -100,7 +100,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "6"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Expérience du poste :
@@ -111,7 +111,7 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "7"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Expérience totale:
@@ -124,7 +124,20 @@ $this->headTitle($title);
         <div class="col">
             <ul>
                 <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "8"])?>">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
+                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
+                    </a>
+                    Contrat rechercher:
+                    <?php foreach ($minicv->getContrat() as $contrat): ?>
+                        <li><?= $contrat->getType(); ?></li>
+                    <?php endforeach; ?>
+                </p>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <p class="font-weight-bold text-success">
+                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "7"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
                     Informations complémentaires:

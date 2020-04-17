@@ -46,7 +46,7 @@ class AdherentsController extends AbstractActionController
         ];
     }
 
-    public function editActiont()
+    public function editAction()
     {
         $id = $this->params()->fromRoute('id', null);
         $part =  $this->params()->fromRoute('part', null);
@@ -62,9 +62,55 @@ class AdherentsController extends AbstractActionController
                     ->findOneByUsername($this->authService->getIdentity());
 
         if ($curUser->getAdminStatus() || $minicv->getUser()->getId() == $curUser->getId()) {
+            $selector = 0;
+            switch ($part) {
+                case 1:
+                    // "Expérience et formation";
+                    $form = new MinicvP2Form(true);
+                    break;
+                case 2:
+                    // "Contrat - disponibilité - mobilité";
+                    $form = new MinicvP3Form($this->entityManager,true);
+                    break;
+                case 3:
+                    // "Vos compétences;
+                    $form = new MinicvP4Form($this->entityManager, $this->config,true);
+                    $selector = $this->config['Adherents']['options']['competence'];
+                    break;
+                case 4:
+                    $form = new MinicvP5Form($this->entityManager, $this->config,true);
+                    $selector = $this->config['Adherents']['options']['competenceBis'];
+                    break;
+                case 5:
+                    // "Vos secteurs ciblés";
+                    $form = new MinicvP6Form($this->entityManager, $this->config,true);
+                    break;
+                case 6:
+                    //"Vos savoir-être";
+                    $form = new MinicvP7Form($this->entityManager, $this->config,true);
+                    break;
+                case 7:
+                    // "Informations Complémentaires";
+                    $form = new MinicvP8Form($this->entityManager, $this->config,true);
+                    break;
+                default:
+                    return $this->redirect()->toRoute('home');
+                    break;
+            }
+            $request = $this->getRequest();
+            if (!$request->isPost()) {
+                return ['form' => $form,'part'=> $part,'selector' => $selector,'minicv' => $minicv];
+            }
 
-            //insert edit code
-            return "ok";
+            $form->setData($request->getPost());
+
+            if (!$form->isValid()) {
+                return ['form' => $form,'part'=> $part,'selector' => $selector,'minicv' => $minicv];
+            }
+            $data = $form->getData();
+            $this->adherentsService->updateMinicv($id, $data, $part,$curUser);
+
+            return $this->redirect()->toRoute('adherents', ['action' => 'view','id' => $id]);
 
         } else {
             // you're not admin and this is not your minicv

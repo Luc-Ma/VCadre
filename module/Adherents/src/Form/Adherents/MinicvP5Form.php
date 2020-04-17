@@ -19,10 +19,11 @@ class MinicvP5Form extends Form
     /**
      * Constructor.
      */
-    public function __construct($entityManager, $config)
+    public function __construct($entityManager, $config,$edit=false)
     {
         $this->entityManager = $entityManager;
         $this->config = $config;
+        $this->edit = $edit;
         // Define form name
         parent::__construct('minicvp5');
 
@@ -48,6 +49,7 @@ class MinicvP5Form extends Form
 
     protected function addElements()
     {
+        $submitvalue = $this->edit ? "Enregistrer" : "Suivant";
         for ($i = 0; $i < $this->config['Adherents']['options']['competence']; $i++) {
             $this->add([
                 'type' => 'select',
@@ -62,7 +64,7 @@ class MinicvP5Form extends Form
             'type'  => 'submit',
             'name' => 'submit',
             'attributes' => [
-                'value' => 'Suivant',
+                'value' => $submitvalue,
                 'id' => 'submit',
             ],
         ]);

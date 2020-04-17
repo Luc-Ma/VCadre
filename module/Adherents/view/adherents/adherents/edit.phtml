@@ -1,126 +1,147 @@
 <?php
-$title = 'Mini cv';
+$title = 'Edition';
 
 $this->headTitle($title);
+$this->headLink()->appendStylesheet($this->basePath('css/bootstrap-select.min.css'));
+$this->headScript()->appendFile($this->basePath('js/bootstrap-select.min.js'));
+$this->headLink()->appendStylesheet($this->basePath('css/adherents/continue.css'));
+switch ($part) {
+    case 2:
+        $elements = [
+            [
+                'name' => 'contrat',
+                'class' => 'form-control multicheck',
+                'spe' => true,
+            ],
+            [
+                'name' => 'dispo',
+                'value' => $minicv->getDispo()->getId(),
+                'class' => 'selectpicker form-control'
+            ],
+            [
+                'name' => 'mob',
+                'value' => $minicv->getMobilite()->getId(),
+                'class' => 'selectpicker form-control'
+            ],
+            [
+                'name' => 'source',
+                'value' => $minicv->getMobiliteSource(),
+                'class' => 'form-control',
+                'placeholder' => 'la Roche sur Yon'
+            ],
+        ];
+        break;
+    case 3:
+        $elements = [];
+        for ($i = 0; $i < $selector; $i++) {
+            $elements[] = [
+                'name' => 'comp'.$i,
+                'class' => 'selectpicker form-control comp'
+            ];
+        }
+        /*
+        $value = [];
+        foreach ($minicv->getComp() as $comp) {
+            $value[] = $comp->getMetier()->getId();
+        }
+        */
+        break;
+    case 4:
+        for ($i = 0; $i < $selector; $i++) {
+            $elements[] = [
+                'name' => 'compbis'.$i,
+                'class' => 'selectpicker form-control compbis'
+            ];
+        }
+        break;
+    case 5:
+    case 6:
+        $elements = [];
+        break;
+    case 7:
+        $elements = [
+            [
+                'name' => 'infos',
+                'class' => 'form-control',
+                'value' => $minicv->getInfosComp(),
+                'placeholder' => 'Informations que vous souhaitez ajouter (facultatif)'
+            ],
+        ];
+        break;
+    case 1:
+    default:
+        $elements = [
+            [
+                'name' => 'xp',
+                'class' => 'form-control',
+                'placeholder' => '6 mois',
+                'value' => $minicv->getExperiencePoste()
+            ],
+            [
+                'name' => 'xptot',
+                'class' => 'form-control',
+                'value' => $minicv->getExperienceTotal(),
+                'placeholder' => '10 ans'
+            ],
+            [
+                'name' => 'formation',
+                'value' => $minicv->getFormation(),
+                'class' => 'form-control'
+            ],
+        ];
+        break;
+}
 
+foreach ($elements as $element) {
+    if(isset($element['placeholder'])) {
+            $form->get($element['name'])->setAttributes([
+                'placeholder' => $element['placeholder'],
+            ]);
+    }
+    if(isset($element['value'])) {
+        $form->get($element['name'])->setAttributes([
+            'value' => $element['value'],
+        ]);
+    }
+    $form->get($element['name'])->setAttributes([
+        'class' => $element['class'],
+    ]);
+}
+$form->prepare();
+//print_r($form->getMessages());
 ?>
 <div class="row justify-content-center">
     <h1 class="mt-4 mb-5">
-        Votre Minicv <?=$minicv->getIntitule() ?>
+        Edition de votre Minicv <?=$minicv->getIntitule() ?>
     </h1>
 </div>
-<div class="row">
-    <div< class="row">
-    <?= $minicv->getApec()->getIntitule(); ?>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Savoir-être :
-                </p>
-                <?php foreach ($minicv->getSavoirEtre() as $se): ?>
-                    <li><?= $se->getNom(); ?></li>
-                <?php endforeach; ?>
-            </ul>
+<div class="row mt-5">
+    <div class="col">
+        <?= $this->form()->openTag($form); ?>
+        <?php if ($part < 3 || $part == 7): ?>
+            <?php foreach ($elements as $element): ?>
+                <?php $add = isset($element['spe']) ? "hiddenCB" : ""; ?>
+                <div class="form-group <?= $add; ?>">
+                    <?= $this->formLabel($form->get($element['name'])); ?>
+                    <?= $this->formElement($form->get($element['name'])); ?>
+                    <?= $this->formElementErrors($form->get($element['name'])); ?>
+                </div>
+            <?php endforeach; ?>
+        <?php elseif ($part == 3): ?>
+            <?= $this->FormHelper()->renderMetier("comp",$value); ?>
+        <?php elseif ($part == 4): ?>
+            <?= $this->FormHelper()->renderMetier("compbis"); ?>
+        <?php elseif ($part == 5): ?>
+            <?= $this->FormHelper()->renderSecteur(); ?>
+        <?php elseif ($part == 6): ?>
+            <?= $this->FormHelper()->renderSe(); ?>
+        <?php endif; ?>
+        <div class="row mb-5">
         </div>
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Compétence :
-                </p>
-                <?php foreach ($minicv->getComp() as $comp): ?>
-                    <li><?= $comp->getNom(); ?></li>
-                <?php endforeach; ?>
-                <?php foreach ($minicv->getCompBis() as $comp): ?>
-                    <li><?= $comp->getNom(); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-    <div class="row mt-5">
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "3"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Secteurs ciblés :
-                </p>
-                <?php foreach ($minicv->getSecteur() as $secteur): ?>
-                    <li><?= $secteur->getNom(); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Formations :
-                </p>
-                <li><?= nl2br($this->escapeHtml($minicv->getFormation())); ?></li>
-            </ul>
-        </div>
-    </div>
-    <div class="row mt-5">
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Disponibilité :
-                </p>
-                <li><?= $minicv->getDispo()->getDispo(); ?></li>
-            </ul>
-        </div>
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "5"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Mobilité :
-                </p>
-                <li><?= $minicv->getMobilite()->getMobilite(); ?></li>
-                <li>À partir de : <?= $minicv->getMobiliteSource(); ?></li>
-            </ul>
-        </div>
-    </div>
-    <div class="row mt-5">
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "6"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Expérience du poste :
-                </p>
-                <li><?= $this->escapeHtml($minicv->getExperiencePoste()); ?></li>
-            </ul>
-        </div>
-        <div class="col">
-            <ul>
-                <p class="font-weight-bold text-success">
-                    <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "7"])?>">
-                        <img src="/img/edit.svg" alt="edit" width=25 height=25 />
-                    </a>
-                    Expérience totale:
-                </p>
-                <li><?= $this->escapeHtml($minicv->getExperienceTotal()) ?></li>
-            </ul>
-        </div>
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
     </div>
 </div>
 <?php
-$this->inlineScript()->appendFile($this->basePath('js/adherents/upload.js'));
+$this->inlineScript()->appendFile($this->basePath('js/adherents/continue.js'));
  ?>
