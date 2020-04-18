@@ -34,7 +34,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "3"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Compétences principale et <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>"><img src="/img/edit.svg" alt="edit" width=25 height=25 /></a>competence secondaire :
+                    Compétences principales et <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>"><img src="/img/edit.svg" alt="edit" width=25 height=25 /></a>compétences secondaires :
                 </p>
                 <?php foreach ($minicv->getComp() as $comp): ?>
                     <li><?= $comp->getNom(); ?></li>
@@ -114,7 +114,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "1"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Expérience totale:
+                    Expérience totale :
                 </p>
                 <li><?= $this->escapeHtml($minicv->getExperienceTotal()) ?></li>
             </ul>
@@ -127,7 +127,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "2"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Contrat rechercher:
+                    Contrat recherché :
                     <?php foreach ($minicv->getContrat() as $contrat): ?>
                         <li><?= $contrat->getType(); ?></li>
                     <?php endforeach; ?>
@@ -140,7 +140,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "7"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Informations complémentaires:
+                    Informations complémentaires :
                 </p>
                 <li><?= $this->escapeHtml($minicv->getInfosComp()) ?></li>
             </ul>
