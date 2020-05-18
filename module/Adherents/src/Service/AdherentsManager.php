@@ -11,6 +11,7 @@ use Adherents\Entity\VcCompBis;
 use Adherents\Entity\VcSecteur;
 use Adherents\Entity\VcMobilite;
 use Adherents\Entity\VcSavoiretreList;
+use Adherents\Entity\User;
 use Doctrine\DBAL\Types\DateTimeType;
 
 class AdherentsManager
@@ -313,6 +314,7 @@ class AdherentsManager
                 $minicv->setInfosComp($data['infos']);
                 $minicv->setStep(8);
                 $minicv->setComplet(VcMinicv::PROFIL_IS_COMPLETE);
+                $this->sendAdmin($minicv);
                 break;
             default:
                 return false;
@@ -326,6 +328,22 @@ class AdherentsManager
         $this->logManager->addLog($log);
 
         return true;
+    }
+
+    private function sendAdmin($minicv)
+    {
+        $email = "contact@vendeecadres.com";
+        $subject = $minicv->getUser()-getFirstname()." ".$minicv->getUser()-getLastname()." à complété son cv ".$minicv->getIntitule();
+        $body = $subject."\nveuillez le vérifier et le valider \n";
+        $body .= "https://adherents.vendeecadres.com/admin/mcv";
+        $this->sendMail($usermail,$subject,$body); 
+
+    }
+    private function sendMail($usermail,$subject,$body)
+    {
+        $log = "envoie mail à ".$usermail;
+        $this->logManager->addLog($log);
+        mail($usermail,$subject,$body);
     }
 
     public function delMinicv($id, $user)

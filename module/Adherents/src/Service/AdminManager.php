@@ -13,9 +13,6 @@ use Adherents\Entity\VcContrat;
 use Adherents\Entity\VcDispo;
 use Adherents\Entity\VcMobilite;
 use Adherents\Entity\VcMinicv;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail as SendmailTransport;
-
 
 class AdminManager
 {
@@ -70,6 +67,7 @@ class AdminManager
         $this->logManager->addLog($log);
         mail($usermail,$subject,$body);
     }
+    
     public function addAdmin($userId)
     {
         $user = $this->entityManager->getRepository(User::class)
