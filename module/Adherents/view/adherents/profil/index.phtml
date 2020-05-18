@@ -1,0 +1,77 @@
+<?php
+$intitule  = [];
+$value = [];
+foreach ($apec as $a) {
+    if ($a->getMinicv()->count() > 0) {
+        $intitule[] = $a->getIntitule();
+        $value[] = $a->getMinicv()->count();
+    }
+}
+?>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<style>
+H2 { text-align: center }
+</style>
+
+<div>
+    <h2>
+        Nos Profils
+    </h2>
+</div>
+<div>
+    <canvas id="myChart" width="200" height="200"></canvas>
+</div>
+
+
+<script>
+
+var config = {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: [
+                <?php
+                foreach ($value as $val) {
+                    echo $val.",";
+                }
+                ?>
+            ],
+            backgroundColor: [
+                'red',
+                'orange',
+                'yellow',
+                'green',
+                'blue',
+            ],
+        }],
+        labels: [
+            <?php
+            foreach ($intitule as $name) {
+                echo "'".$name."',";
+            }
+            ?>
+        ]
+    },
+    options: {
+        responsive: true
+    }
+};
+var ctx = document.getElementById('myChart');
+var myPieChart = new Chart(ctx,config);
+ctx.onclick = function(evt) {
+      var activePoints = myPieChart.getElementsAtEvent(evt);
+      if (activePoints[0]) {
+        var chartData = activePoints[0]['_chart'].config.data;
+        var idx = activePoints[0]['_index'];
+
+        var label = chartData.labels[idx];
+        var value = chartData.datasets[0].data[idx];
+
+        var url = "http://example.com/?label=" + label + "&value=" + value;
+        console.log(url);
+      }
+    };
+
+</script>

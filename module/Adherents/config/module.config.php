@@ -37,6 +37,20 @@ return [
                     ],
                 ],
             ],
+            'profils' => [
+                'type'   => Segment::class,
+                'options' => [
+                    'route' => '/profils[/:action][/:id]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                            'controller' => Controller\ProfilController::class,
+                            'action'     => 'index',
+                    ],
+                ],
+            ],
             'admin' => [
                 'type'   => Segment::class,
                 'options' => [
@@ -57,6 +71,7 @@ return [
             Controller\AdherentsController::class => Controller\Factory\AdherentsControllerFactory::class,
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
             Controller\AdminController::class => Controller\Factory\AdminControllerFactory::class,
+            Controller\ProfilController::class => Controller\Factory\ProfilControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -110,7 +125,10 @@ return [
             'mode' => 'restrictive'
         ],
         'controllers' => [
-
+            Controller\ProfilController::class => [
+                // Allow anyone to visit "index" and "about" actions
+                ['actions' => ['index', 'about'], 'allow' => '*'],
+            ],
         ]
     ],
     'Adherents' => [
