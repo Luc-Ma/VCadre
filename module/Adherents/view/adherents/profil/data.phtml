@@ -86,16 +86,16 @@ if($apec === NULL) {
                 <?php endforeach; ?>
             </td>
             <td class="tg-0lax"><p>Information complémentaires</p>
-                <li><?= $this->escapeHtml($minicv->getInfosComp()) ?></li>
+                <?= $this->escapeHtml($minicv->getInfosComp()) ?>
             </td>
           </tr>
         </tbody>
     </table>
     <?php
     if($minicv->getUser()->getUpload()->count() > 0  and $minicv->getUser()->getUpload()->first()->getPublic() == 1): ?>
-    https://adherents.vendeecadres.com/cv/cv_SuperAdmin_5e959b87933f3.pdf
          <a href="<?= "https://adherents.vendeecadres.com/cv/".$minicv->getUser()->getUpload()->first()->getFile(); ?>">Télécharger Le CV associé</a>
     <?php endif; ?>
+    <button id="<?=$minicv->getId(); ?>" type="button">Ce profil m'intéresse</button>
 </div>
 <br />
 <?php endforeach; ?>
