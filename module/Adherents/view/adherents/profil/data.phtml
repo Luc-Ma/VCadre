@@ -107,6 +107,9 @@ if($apec === NULL) {
   <input type="hidden" id="minicv" name="minicv" value="">
   <p><input id="send" type="submit" value="Envoyer" /></p>
 </form>
+<div class="modal" id="sucess" style="display:none;">
+  <p>Votre message viens d'être envoyé</p>
+</div>
 <script>
 $(function(){
     $('button').click(function(){
@@ -132,14 +135,14 @@ $(function(){
            dataType: 'json',
            success: function (data) {
                 if(data.SUCCES == "OK") {
-                    console.log("mesage envoyé")
-
+                    console.log("mesage envoyé");
+                    $("#sucess").modal();
                 } else {
-                    console.log("erreur")
+                    console.log("erreur");
+                    $.modal.close();
                 }
            }
        });
-       $.modal.close();
     });
 });
 </script>
