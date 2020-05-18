@@ -68,7 +68,7 @@ class AdminManager
     {
         $log = "envoie mail à ".$usermail;
         $this->logManager->addLog($log);
-        mail($usermail,$subject,$msg);
+        mail($usermail,$subject,$body);
     }
     public function addAdmin($userId)
     {
