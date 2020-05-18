@@ -47,4 +47,54 @@ class ProfilController extends AbstractActionController
         return $htmlOutput;
     }
 
+    public function msgAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $view = new JsonModel();
+            $view->setTerminal(true);
+            $view->setVariable('SUCCES', 'OK');
+
+            $name = $this->params()->fromPost('name', null);
+            $email = $this->params()->fromPost('email', null);
+            $message = $this->params()->fromPost('msg', null);
+            $id = $this->params()->fromPost('id', null);
+
+            $minicv = $this->entityManager->getRepository(VcMinicv::class)
+                            ->findOneById($id);
+            if($id === NULL) {
+                $view->setVariable('SUCCES', 'NO');
+                return $view;
+            }
+
+            $to = $minicv->getUser()->getEmail();
+            $subject = $name." est intéressé par votre profil";
+
+            $message = "
+            <html>
+            <head>
+            <title>".$name." est intéressé par votre profil</title>
+            </head>
+            <body>
+            <p>".$name." est intéressé par votre profil</p>
+            <p>
+            Recontatez à cette adresse e-mail : <a href=\"".$email."\">".$email."</a>
+            </p>
+            <p>
+            Son message : <br />
+            ".htmlspecialchars($message, ENT_QUOTES)."
+            </p>
+            </body>
+            </html>
+            ";
+
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: <no-replay@vendeecadres.com>' . "\r\n";
+            mail($to,$subject,$message,$headers);
+            return $view;
+        } else {
+            return $this->redirect()->toRoute('home');
+        }
+    }
 }
