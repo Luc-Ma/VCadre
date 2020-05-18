@@ -45,9 +45,11 @@ class AdminManager
         $state = $minicv->getValid();
 
         if ($state == VcMinicv::PROFIL_IS_VALID) {
+            $subject = "Votre miniCV est validé";
+            $body = "Votre minicv est validé et est maintenant disponible publiquement";
+            $this->sendMail($minicv->getUser()->getEmail(),$subject,$body);
             $minicv->setPublish(VcMinicv::PROFIL_IS_PUBLIC);
             $minicv->setValid(VcMinicv::PROFIL_INVALID);
-
         } else {
             $minicv->setValid(VcMinicv::PROFIL_IS_VALID);
         }
@@ -58,9 +60,7 @@ class AdminManager
         $log = $minicv->getUser()->getLastname()." ".$minicv->getUser()->getFirstname()." A son profil ";
         $log .= $state == VcMinicv::PROFIL_IS_VALID ? "Invalidé" : "Validé";
         $this->logManager->addLog($log);
-        $subject = "Votre miniCV est validé";
-        $body = "Votre minicv est validé et est maintenant disponible publiquement";
-        $this->sendMail($minicv->getUser()->getEmail(),$subject,$body);
+
         return true;
     }
 
