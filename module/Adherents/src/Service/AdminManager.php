@@ -13,6 +13,9 @@ use Adherents\Entity\VcContrat;
 use Adherents\Entity\VcDispo;
 use Adherents\Entity\VcMobilite;
 use Adherents\Entity\VcMinicv;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Sendmail as SendmailTransport;
+
 
 class AdminManager
 {
@@ -42,7 +45,9 @@ class AdminManager
         $state = $minicv->getValid();
 
         if ($state == VcMinicv::PROFIL_IS_VALID) {
+            $minicv->setPublish(VcMinicv::PROFIL_IS_PUBLIC);
             $minicv->setValid(VcMinicv::PROFIL_INVALID);
+
         } else {
             $minicv->setValid(VcMinicv::PROFIL_IS_VALID);
         }
@@ -53,9 +58,23 @@ class AdminManager
         $log = $minicv->getUser()->getLastname()." ".$minicv->getUser()->getFirstname()." A son profil ";
         $log .= $state == VcMinicv::PROFIL_IS_VALID ? "Invalidé" : "Validé";
         $this->logManager->addLog($log);
+        $subject = "Votre miniCV est validé";
+        $body = "Votre minicv est validé et est maintenant disponible publiquement";
+        $this->sendMail($minicv->getUser()->getEmail(),$subject,$body); 
         return true;
     }
 
+    private function sendMail($usermail,$subject,$body)
+    {
+        $message = new Message();
+        $message->addTo($usermail);
+        $message->addFrom('no-replay@vendeecadres.com');
+        $message->setSubject($subject);
+        $message->setBody($body);
+
+        $transport = new SendmailTransport();
+        $transport->send($message);
+    }
     public function addAdmin($userId)
     {
         $user = $this->entityManager->getRepository(User::class)
