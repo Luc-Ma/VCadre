@@ -3,8 +3,13 @@ $intitule  = [];
 $value = [];
 foreach ($apec as $a) {
     if ($a->getMinicv()->count() > 0) {
+        $cpt = 0;
         $intitule[] = $a->getIntitule();
-        $value[] = $a->getMinicv()->count();
+        foreach ($a->getMinicv() as $minicv) {
+            if($minicv->getPublish() == 1 and $minicv->getValid() == 1)
+                $cpt++;
+        }
+        $value[] = $cpt;
     }
 }
 ?>
