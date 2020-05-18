@@ -336,7 +336,7 @@ class AdherentsManager
         $subject = $minicv->getUser()->getFirstname()." ".$minicv->getUser()->getLastname()." à complété son cv ".$minicv->getIntitule();
         $body = $subject."\nveuillez le vérifier et le valider \n";
         $body .= "https://adherents.vendeecadres.com/admin/mcv";
-        $this->sendMail($usermail,$subject,$body);
+        $this->sendMail($email,$subject,$body);
 
     }
     private function sendMail($usermail,$subject,$body)
