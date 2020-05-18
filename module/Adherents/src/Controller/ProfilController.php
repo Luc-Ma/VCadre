@@ -78,7 +78,7 @@ class ProfilController extends AbstractActionController
             <body>
             <p>".$name." est intéressé par votre profil</p>
             <p>
-            Recontatez à cette adresse e-mail : <a href=\"".$email."\">".$email."</a>
+            Recontatez à cette adresse e-mail : <a href=\"mailto:".$email."\">".$email."</a>
             </p>
             <p>
             Son message : <br />
