@@ -15,7 +15,9 @@ foreach ($apec as $a) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
 <body>
-
+<div id="retour">
+    <a href="javascript:;">Retour aux catégories</a>
+</div>
 <div id="myGraph">
     <canvas id="myChart" width="200" height="200"></canvas>
 </div>
@@ -26,27 +28,74 @@ foreach ($apec as $a) {
 <script>
 $(function(){
 
+$("#retour").hide();
 $("#myGraph").show();
 $("#myData").hide();
 
+$("#retour").click(function(){
+    $("#retour").hide();
+    $("#myGraph").show();
+    $("#myData").hide();
+});
+
+function pullCat(id) {
+    $("#myGraph").hide();
+    $.ajax({ type: "POST",
+        url: "profils/data",
+        data: { cat : id},
+        dataType: "html",
+        success: function(html){
+            $("#myData").empty();
+            $("#myData").append(html);
+            $("#retour").show();
+            $("#myData").show();
+          console.log("success : " + id)
+        }
+    });
+}
+
 function displayCat(cat) {
     console.log(cat)
-    if(cat == "Médical, social") {
-        console.log("in")
-        $("#myGraph").hide();
-        $.ajax({ type: "POST",
-            url: "profils/data",
-            data: { cat : 30},
-            dataType: "html",
-            success: function(html){
-                $("#myData").empty();
-                $("#myData").append(html);
-                $("#myData").show();
-              console.log("success : " + html)
-            }
-        });
+    switch (cat) {
+        case "Médical, social":
+            pullCat(30);
+            break;
+        case "Direction":
+            pullCat(19);
+            break;
+        case "Production, chantiers":
+            pullCat(20);
+            break;
+        case "Services techniques":
+            pullCat(23);
+            break;
+        case "Études, R&D, architecture":
+            pullCat(24);
+            break;
+        case "Commercial, marketing, ventes, immobilier":
+            pullCat(25);
+            break;
+        case "Administration, compta, finances, gestion":
+            pullCat(26);
+            break;
+        case "Informatique, télécoms":
+            pullCat(27);
+            break;
+        case "RH, formation":
+            pullCat(28);
+            break;
+        case "Communication, création, culture":
+            pullCat(29);
+            break;
+        case "Médical, social":
+            pullCat(30);
+            break;
+        default:
+            console.log("undef cat");
+            return;
     }
 }
+
 var config = {
     type: 'doughnut',
     data: {
