@@ -60,20 +60,15 @@ class AdminManager
         $this->logManager->addLog($log);
         $subject = "Votre miniCV est validé";
         $body = "Votre minicv est validé et est maintenant disponible publiquement";
-        $this->sendMail($minicv->getUser()->getEmail(),$subject,$body); 
+        $this->sendMail($minicv->getUser()->getEmail(),$subject,$body);
         return true;
     }
 
     private function sendMail($usermail,$subject,$body)
     {
-        $message = new Message();
-        $message->addTo($usermail);
-        $message->addFrom('no-replay@vendeecadres.com');
-        $message->setSubject($subject);
-        $message->setBody($body);
-
-        $transport = new SendmailTransport();
-        $transport->send($message);
+        $log = "envoie mail à ".$usermail;
+        $this->logManager->addLog($log);
+        mail($usermail,$subject,$msg);
     }
     public function addAdmin($userId)
     {
