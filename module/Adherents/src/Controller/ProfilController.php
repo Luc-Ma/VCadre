@@ -36,11 +36,13 @@ class ProfilController extends AbstractActionController
     public function dataAction()
     {
         $htmlView = new ViewModel();
-        $minicv = $this->entityManager->getRepository(VcMinicv::class)->findAll();
+        $type = $this->params()->fromPost('cat', null);
+        $apec = $this->entityManager->getRepository(VcApec::class)
+                        ->findOneById($type);
         $htmlOutput = $htmlView
                  ->setTerminal(true)
                  ->setTemplate("adherents/profil/data")
-                 ->setVariable('minicv', $minicv);
+                 ->setVariable('apec', $apec);
 
         return $htmlOutput;
     }

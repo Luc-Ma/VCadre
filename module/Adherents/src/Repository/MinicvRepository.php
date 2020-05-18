@@ -37,4 +37,5 @@ class MinicvRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
 }

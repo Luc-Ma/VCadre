@@ -127,7 +127,7 @@ return [
         'controllers' => [
             Controller\ProfilController::class => [
                 // Allow anyone to visit "index" and "about" actions
-                ['actions' => ['index', 'about'], 'allow' => '*'],
+                ['actions' => ['index', 'data'], 'allow' => '*'],
             ],
         ]
     ],
