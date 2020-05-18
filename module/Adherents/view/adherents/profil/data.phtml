@@ -22,6 +22,11 @@ if($apec === NULL) {
 
 
 <?php foreach ($apec->getMinicv() as $minicv): ?>
+<?php
+    //check if profile is valid and public
+    if($minicv->getPublish() != 1 or $minicv->getValid() != 1)
+        continue;
+?>
 
 <div class="tg-wrap">
     <?=$minicv->getIntitule() ?>
