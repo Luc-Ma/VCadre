@@ -221,6 +221,9 @@ class AdherentsManager
                 return;
                 break;
         }
+        if($minicv->getValid() == VcMinicv::PROFIL_IS_VALID) {
+            sendAdmin($minicv,true)
+        }
         $minicv->setValid(VcMinicv::PROFIL_INVALID);
         $minicv->setPublish(VcMinicv::PROFIL_IS_PRIVATE);
 
@@ -330,10 +333,14 @@ class AdherentsManager
         return true;
     }
 
-    private function sendAdmin($minicv)
+    private function sendAdmin($minicv,$edit=false)
     {
         $email = "contact@vendeecadres.com";
-        $subject = $minicv->getUser()->getFirstname()." ".$minicv->getUser()->getLastname()." à complété son cv ".$minicv->getIntitule();
+        if($edit) {
+            $subject = $minicv->getUser()->getFirstname()." ".$minicv->getUser()->getLastname()." à modifié son cv ".$minicv->getIntitule();
+        } else {
+            $subject = $minicv->getUser()->getFirstname()." ".$minicv->getUser()->getLastname()." à complété son cv ".$minicv->getIntitule();
+        }
         $body = $subject."\nveuillez le vérifier et le valider \n";
         $body .= "https://adherents.vendeecadres.com/admin/mcv";
         $this->sendMail($email,$subject,$body);
