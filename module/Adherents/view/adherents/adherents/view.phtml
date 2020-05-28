@@ -34,7 +34,7 @@ $this->headTitle($title);
                     <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "3"])?>">
                         <img src="/img/edit.svg" alt="edit" width=25 height=25 />
                     </a>
-                    Compétences principales et <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>"><img src="/img/edit.svg" alt="edit" width=25 height=25 /></a>compétences secondaires :
+                    Compétences de base et <a href="<?= $this->url('adherents', ['action' => 'edit','id' => $minicv->getId(),'part' => "4"])?>"><img src="/img/edit.svg" alt="edit" width=25 height=25 /></a>compétences spécifiques :
                 </p>
                 <?php foreach ($minicv->getComp() as $comp): ?>
                     <li><?= $comp->getNom(); ?></li>
