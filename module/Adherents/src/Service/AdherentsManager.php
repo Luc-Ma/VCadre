@@ -222,7 +222,7 @@ class AdherentsManager
                 break;
         }
         if($minicv->getValid() == VcMinicv::PROFIL_IS_VALID) {
-            sendAdmin($minicv,true);
+            $this->sendAdmin($minicv,true);
         }
         $minicv->setValid(VcMinicv::PROFIL_INVALID);
         $minicv->setPublish(VcMinicv::PROFIL_IS_PRIVATE);
