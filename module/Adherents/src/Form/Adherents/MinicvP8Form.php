@@ -42,7 +42,7 @@ class MinicvP8Form extends Form
             'type'  => 'textarea',
             'name' => 'infos',
             'options' => [
-                'label' => 'Informations complétentaires :  ',
+                'label' => 'Informations complémentaires :  ',
             ],
         ]);
 
