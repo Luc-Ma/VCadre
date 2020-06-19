@@ -41,7 +41,9 @@ $("#myGraph").show();
 $("#myData").empty();
 
 $("#retour").click(function(){
-    window.top.location.reload();
+    $("#retour").hide();
+    $("#myGraph").show();
+    $("#myData").empty();
 });
 
 function pullCat(id) {
