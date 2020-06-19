@@ -24,7 +24,7 @@ foreach ($apec as $a) {
 </head>
 <body>
 <div id="retour">
-    <a href="https://vendeecadres.com/nos-profils-2/">Retour aux catégories</a>
+    <a href="javascript:;">Retour aux catégories</a>
 </div>
 <div id="myGraph">
     <canvas id="myChart" width="200" height="200"></canvas>
@@ -39,13 +39,11 @@ $(function(){
 $("#retour").hide();
 $("#myGraph").show();
 $("#myData").empty();
-/*
+
 $("#retour").click(function(){
-    $("#retour").hide();
-    $("#myGraph").show();
-    $("#myData").empty();
+    window.top.location.reload();
 });
-*/
+
 function pullCat(id) {
     $("#myGraph").hide();
     $.ajax({ type: "POST",
