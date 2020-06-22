@@ -90,7 +90,7 @@ class ProfilController extends AbstractActionController
 
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: <no-replay@vendeecadres.com>' . "\r\n";
+            $headers .= 'From: <no-reply@vendeecadres.com>' . "\r\n";
             mail($to,'=?utf-8?B?'.base64_encode($subject).'?=',$message,$headers);
             return $view;
         } else {
