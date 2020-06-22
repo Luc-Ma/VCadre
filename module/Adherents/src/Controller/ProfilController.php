@@ -62,7 +62,7 @@ class ProfilController extends AbstractActionController
 
             $minicv = $this->entityManager->getRepository(VcMinicv::class)
                             ->findOneById($id);
-            if($id === NULL) {
+            if($id === NULL || $minicv === NULL) {
                 $view->setVariable('SUCCES', 'NO');
                 return $view;
             }
