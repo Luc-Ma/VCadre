@@ -78,7 +78,7 @@ class ProfilController extends AbstractActionController
             <body>
             <p>".$name." est intéressé par votre profil : ".$minicv->getIntitule()."</p>
             <p>
-            Recontatez à cette adresse e-mail : <a href=\"mailto:".$email."\">".$email."</a>
+            Recontactez à cette adresse e-mail : <a href=\"mailto:".$email."\">".$email."</a>
             </p>
             <p>
             Son message : <br />
